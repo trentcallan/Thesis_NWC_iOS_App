@@ -14,6 +14,14 @@
 		F5082D452145CB5200D1DD9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5082D432145CB5200D1DD9C /* LaunchScreen.storyboard */; };
 		F5082D502145CB5200D1DD9C /* ThesisTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5082D4F2145CB5200D1DD9C /* ThesisTestTests.swift */; };
 		F5082D5B2145CB5200D1DD9C /* ThesisTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5082D5A2145CB5200D1DD9C /* ThesisTestUITests.swift */; };
+		F50F628121FFB92100F1BC91 /* JSONtest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F628021FFB92100F1BC91 /* JSONtest.swift */; };
+		F50F628321FFC29900F1BC91 /* JSONData.json in Sources */ = {isa = PBXBuildFile; fileRef = F50F628221FFC29900F1BC91 /* JSONData.json */; };
+		F50F62862200F0A800F1BC91 /* School.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62852200F0A800F1BC91 /* School.swift */; };
+		F50F62882200F10500F1BC91 /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62872200F10500F1BC91 /* Sport.swift */; };
+		F50F628A2200FD0A00F1BC91 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62892200FD0A00F1BC91 /* Event.swift */; };
+		F50F628C2201008E00F1BC91 /* StandingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F628B2201008E00F1BC91 /* StandingsCVC.swift */; };
+		F50F628F2201024B00F1BC91 /* StandingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F628E2201024B00F1BC91 /* StandingsCell.swift */; };
+		F50F62912202614F00F1BC91 /* ScheduleTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62902202614F00F1BC91 /* ScheduleTVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +55,14 @@
 		F5082D562145CB5200D1DD9C /* ThesisTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThesisTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5082D5A2145CB5200D1DD9C /* ThesisTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThesisTestUITests.swift; sourceTree = "<group>"; };
 		F5082D5C2145CB5200D1DD9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F50F628021FFB92100F1BC91 /* JSONtest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONtest.swift; sourceTree = "<group>"; };
+		F50F628221FFC29900F1BC91 /* JSONData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = JSONData.json; sourceTree = "<group>"; };
+		F50F62852200F0A800F1BC91 /* School.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = School.swift; sourceTree = "<group>"; };
+		F50F62872200F10500F1BC91 /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
+		F50F62892200FD0A00F1BC91 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		F50F628B2201008E00F1BC91 /* StandingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsCVC.swift; sourceTree = "<group>"; };
+		F50F628E2201024B00F1BC91 /* StandingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsCell.swift; sourceTree = "<group>"; };
+		F50F62902202614F00F1BC91 /* ScheduleTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +93,8 @@
 		F5082D2E2145CB5200D1DD9C = {
 			isa = PBXGroup;
 			children = (
+				F50F628D2201022500F1BC91 /* View */,
+				F50F62842200F08B00F1BC91 /* Models */,
 				F5082D392145CB5200D1DD9C /* ThesisTest */,
 				F5082D4E2145CB5200D1DD9C /* ThesisTestTests */,
 				F5082D592145CB5200D1DD9C /* ThesisTestUITests */,
@@ -103,6 +121,10 @@
 				F5082D412145CB5200D1DD9C /* Assets.xcassets */,
 				F5082D432145CB5200D1DD9C /* LaunchScreen.storyboard */,
 				F5082D462145CB5200D1DD9C /* Info.plist */,
+				F50F628021FFB92100F1BC91 /* JSONtest.swift */,
+				F50F628221FFC29900F1BC91 /* JSONData.json */,
+				F50F628B2201008E00F1BC91 /* StandingsCVC.swift */,
+				F50F62902202614F00F1BC91 /* ScheduleTVC.swift */,
 			);
 			path = ThesisTest;
 			sourceTree = "<group>";
@@ -123,6 +145,24 @@
 				F5082D5C2145CB5200D1DD9C /* Info.plist */,
 			);
 			path = ThesisTestUITests;
+			sourceTree = "<group>";
+		};
+		F50F62842200F08B00F1BC91 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F50F62852200F0A800F1BC91 /* School.swift */,
+				F50F62872200F10500F1BC91 /* Sport.swift */,
+				F50F62892200FD0A00F1BC91 /* Event.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F50F628D2201022500F1BC91 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F50F628E2201024B00F1BC91 /* StandingsCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -260,7 +300,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				F5082D3D2145CB5200D1DD9C /* ViewController.swift in Sources */,
+				F50F628321FFC29900F1BC91 /* JSONData.json in Sources */,
+				F50F628F2201024B00F1BC91 /* StandingsCell.swift in Sources */,
 				F5082D3B2145CB5200D1DD9C /* AppDelegate.swift in Sources */,
+				F50F62912202614F00F1BC91 /* ScheduleTVC.swift in Sources */,
+				F50F62862200F0A800F1BC91 /* School.swift in Sources */,
+				F50F628C2201008E00F1BC91 /* StandingsCVC.swift in Sources */,
+				F50F628A2200FD0A00F1BC91 /* Event.swift in Sources */,
+				F50F62882200F10500F1BC91 /* Sport.swift in Sources */,
+				F50F628121FFB92100F1BC91 /* JSONtest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
