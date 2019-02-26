@@ -7,40 +7,104 @@
 //
 
 import UIKit
+import CoreData
+import SwiftSoup
 
 class StandingsCVC: UICollectionViewController {
-
-    let schools: [School] = [School(name: "Willamette University", logo: "willametteLogo", sport: Sport(type: "Men's Basketball", NWCwins: 4, NWClosses: 4, overallWins: 8, overallLosses: 6)), School(name: "George Fox", logo: "georgefoxLogo", sport: Sport(type: "Women's Basketball", NWCwins: 2, NWClosses: 1, overallWins: 3, overallLosses: 3))]
+    
+    var schools: [School] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //deleteSports()
+        loadSchools()
+        
+        //allow the height of the cell to automatically adjust
         if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout,
             let collectionView = collectionView {
             let w = collectionView.frame.width - 20
+            flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
             flowLayout.estimatedItemSize = CGSize(width: w, height: 200)
         }
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    func loadSchools() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<School>(entityName: "School")
+        do {
+            schools = try managedContext.fetch(request)
+        }
+        catch {
+            print("Error = \(error.localizedDescription)")
+        }
+        
+    }
+    
+    func deleteSports() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        //request all sports in core data
+        let request = NSFetchRequest<Sport>(entityName: "Sport")
+        do {
+            let result = try managedContext.fetch(request)
+            for sub in result {
+                managedContext.delete(sub)
+            }
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("could not save. \(error), \(error.userInfo)")
+            }
+        }
+        catch {
+            print("Error = \(error.localizedDescription)")
+        }
+        print("done deleting")
     }
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return schools.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return schools.count
+        return (schools[section].sports?.count)!
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "standingsCell", for: indexPath) as! StandingsCell
-        let school = schools[indexPath.row]
-        cell.Team.text = school.sport.type
-        cell.Record.text = "NWC: \(school.sport.NWCwins) - \(school.sport.NWClosses)\nOverall: \(school.sport.overallWins) - \(school.sport.overallLosses)"
-        cell.Logo.image = UIImage(named: school.logo)
+        let school = schools[indexPath.section]
+        let color = school.color as! Color
+        let sports: [Sport] = school.sports?.array as! [Sport]
+        let sport = sports[indexPath.row]
+        cell.backgroundColor = color.color
+        cell.Team.text = "\(sport.type!)"
+        if(sport.nwcTies == "" && sport.overallTies == "") {
+            cell.Record.text = "NWC: \(sport.nwcWins!) - \(sport.nwcLosses!)\nOverall: \(sport.overallWins!) - \(sport.overallLosses!)"
+        } else {
+            cell.Record.text = "NWC: \(sport.nwcWins!) - \(sport.nwcTies!) - \(sport.nwcLosses!)\nOverall: \(sport.overallWins!) - \(sport.overallTies!) - \(sport.overallLosses!)"
+        }
+
+        cell.Logo.image = UIImage(named: school.logo!)
+        
         return cell
     }
+    
+    //adding a header for each section
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SectionHeader", for: indexPath) as! StandingsHeaderView
+        
+        header.headerLbl.text = schools[indexPath.section].name
+        let color = schools[indexPath.section].color as! Color
+        header.backgroundColor = color.color
+        
+        return header
+    }
+    
 
 }

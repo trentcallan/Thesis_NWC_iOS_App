@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13772" systemVersion="17B1003" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Event" representedClassName="Event" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="notes" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sport" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team1Score" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="team2Score" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="School" representedClassName="School" syncable="YES">
+        <attribute name="color" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="logo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="sports" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Sport" inverseName="school" inverseEntity="Sport" syncable="YES"/>
+    </entity>
+    <entity name="Sport" representedClassName="Sport" syncable="YES">
+        <attribute name="nwcLosses" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nwcTies" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nwcWins" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="overallLosses" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="overallTies" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="overallWins" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="school" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="School" inverseName="sports" inverseEntity="School" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="School" positionX="-45" positionY="0" width="128" height="105"/>
+        <element name="Sport" positionX="-18" positionY="45" width="128" height="165"/>
+        <element name="Event" positionX="27" positionY="126" width="128" height="165"/>
+    </elements>
+</model>
