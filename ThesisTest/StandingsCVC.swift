@@ -17,7 +17,6 @@ class StandingsCVC: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //deleteSports()
         loadSchools()
         
         //allow the height of the cell to automatically adjust
@@ -43,29 +42,6 @@ class StandingsCVC: UICollectionViewController {
         }
         
     }
-    
-    func deleteSports() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        //request all sports in core data
-        let request = NSFetchRequest<Sport>(entityName: "Sport")
-        do {
-            let result = try managedContext.fetch(request)
-            for sub in result {
-                managedContext.delete(sub)
-            }
-            do {
-                try managedContext.save()
-            } catch let error as NSError {
-                print("could not save. \(error), \(error.userInfo)")
-            }
-        }
-        catch {
-            print("Error = \(error.localizedDescription)")
-        }
-        print("done deleting")
-    }
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return schools.count
@@ -88,7 +64,6 @@ class StandingsCVC: UICollectionViewController {
         } else {
             cell.Record.text = "NWC: \(sport.nwcWins!) - \(sport.nwcTies!) - \(sport.nwcLosses!)\nOverall: \(sport.overallWins!) - \(sport.overallTies!) - \(sport.overallLosses!)"
         }
-
         cell.Logo.image = UIImage(named: school.logo!)
         
         return cell

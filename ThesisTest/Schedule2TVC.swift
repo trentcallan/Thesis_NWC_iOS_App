@@ -19,40 +19,6 @@ class Schedule2TVC: UITableViewController {
 
         self.navigationItem.title = "\(sport) Schedule"
         loadEvents()
-
-    }
-    
-    func loadEvents() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let request = NSFetchRequest<Event>(entityName: "Event")
-        let commitPredicate = NSPredicate(format: "sport == %@", sport)
-        request.predicate = commitPredicate
-        do {
-            events = try managedContext.fetch(request)
-        }
-        catch {
-            print("Error = \(error.localizedDescription)")
-        }
-    }
-    
-    func loadSchoolEvents(schoolToGet: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let request = NSFetchRequest<Event>(entityName: "Event")
-        let commitPredicate1 = NSPredicate(format: "sport == %@", sport)
-        let commitPredicate2 = NSPredicate(format: "team1 == %@ OR team2 == %@", schoolToGet, schoolToGet)
-
-        let commits = NSCompoundPredicate(andPredicateWithSubpredicates: [commitPredicate1, commitPredicate2])
-        request.predicate = commits
-        do {
-            events = try managedContext.fetch(request)
-        }
-        catch {
-            print("Error = \(error.localizedDescription)")
-        }
-        self.tableView.reloadData()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -79,12 +45,10 @@ class Schedule2TVC: UITableViewController {
         return cell
     }
     
-    //let willametteImgView = UIImageView(image: UIImage(named: "willametteLogo"))
     var imageArr: [UIImageView] = [UIImageView(), UIImageView(image: UIImage(named: "willametteLogo")), UIImageView(image: UIImage(named: "pacificLogo")), UIImageView(image: UIImage(named: "pluLogo")), UIImageView(image: UIImage(named: "whitmanLogo")), UIImageView(image: UIImage(named: "whitworthLogo")), UIImageView(image: UIImage(named: "lewisLogo")), UIImageView(image: UIImage(named: "georgefoxLogo")), UIImageView(image: UIImage(named: "pugetsoundLogo")), UIImageView(image: UIImage(named: "linfieldLogo")), ]
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        //let v = UIView()
-        //v.backgroundColor = UIColor.lightGray
-        //let arr: [String] = ["willametteLogo", "willametteLogo", "pacificLogo", "pluLogo", "whitmanLogo", "whitworthLogo", "lewisLogo", "georgefoxLogo", "pugetsoundLogo", "linfieldLogo"]
+
         let size: CGFloat = 60
         var xPos: CGFloat = 5
         var contentSize: CGFloat = 0
@@ -93,15 +57,8 @@ class Schedule2TVC: UITableViewController {
         scrollView.backgroundColor = UIColor.lightGray
         
         for index in 0...imageArr.count-1 {
-            //var tempImgView: UIImageView
-//            if(arr[index] == "none") {
-//                let tempImgView = UIImageView()
-//                imageArr.append(tempImgView)
 
-                //let tempImgView = UIImageView(image: UIImage(named: arr[index]))
-                //imageArr.append(tempImgView)
             let tempImgView = imageArr[index]
-            
             
             let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTaps(_:)))
             tempImgView.isUserInteractionEnabled = true
@@ -123,7 +80,6 @@ class Schedule2TVC: UITableViewController {
         
         scrollView.contentSize = CGSize(width: contentSize + 100, height: size + 10)
 
-        //v.addSubview(scrollView)
         return scrollView
     }
     
@@ -176,6 +132,39 @@ class Schedule2TVC: UITableViewController {
         } else {
             loadSchoolEvents(schoolToGet: filter)
         }
+    }
+    
+    func loadEvents() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<Event>(entityName: "Event")
+        let commitPredicate = NSPredicate(format: "sport == %@", sport)
+        request.predicate = commitPredicate
+        do {
+            events = try managedContext.fetch(request)
+        }
+        catch {
+            print("Error = \(error.localizedDescription)")
+        }
+    }
+    
+    func loadSchoolEvents(schoolToGet: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let request = NSFetchRequest<Event>(entityName: "Event")
+        let commitPredicate1 = NSPredicate(format: "sport == %@", sport)
+        let commitPredicate2 = NSPredicate(format: "team1 == %@ OR team2 == %@", schoolToGet, schoolToGet)
+        
+        let commits = NSCompoundPredicate(andPredicateWithSubpredicates: [commitPredicate1, commitPredicate2])
+        request.predicate = commits
+        do {
+            events = try managedContext.fetch(request)
+        }
+        catch {
+            print("Error = \(error.localizedDescription)")
+        }
+        self.tableView.reloadData()
     }
     
 }

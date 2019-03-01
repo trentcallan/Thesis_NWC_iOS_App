@@ -19,6 +19,13 @@ class StandingsCell: UICollectionViewCell {
         self.layer.borderWidth = 2.0
         self.layer.borderColor = UIColor.black.cgColor
         self.layer.cornerRadius = 8.0
+        
+        self.clipsToBounds = false
+        self.layer.masksToBounds = false
+        self.layer.shadowRadius = 5.0
+        self.layer.shadowOffset = CGSize(width: 1, height: 0)
+        self.layer.shadowColor = UIColor.black.cgColor
+        self.layer.shadowOpacity = 0.35
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
