@@ -1,5 +1,5 @@
 //
-//  StandingsCVC.swift
+//  StandingsCollectionViewController.swift
 //  ThesisTest
 //
 //  Created by Trent Callan on 1/29/19.
@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import SwiftSoup
 
-class StandingsCVC: UICollectionViewController {
+class StandingsCollectionViewController: UICollectionViewController {
     
     var schools: [School] = []
     
@@ -19,14 +19,27 @@ class StandingsCVC: UICollectionViewController {
         
         loadSchools()
         
-        //allow the height of the cell to automatically adjust
+        // Allow the height of the cell to automatically adjust
         if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout,
             let collectionView = collectionView {
             let w = collectionView.frame.width - 20
             flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-            flowLayout.estimatedItemSize = CGSize(width: w, height: 200)
+            flowLayout.estimatedItemSize = CGSize(width: w, height: 80)
         }
         
+        // If it's the first time loading this viewcontroller
+        let date = Date()
+        if(UserDefaults.standard.object(forKey: "lastVisitedStandings") == nil) {
+            UserDefaults.standard.set(date, forKey: "lastVisitedStandings")
+        }
+        // Else find if it's been more than a day since updating
+        let lastTime = UserDefaults.standard.object(forKey: "lastVisitedStandings") as! Date
+        let dayFromLast = Calendar.current.dateComponents([.day], from: lastTime, to: date).day ?? 0
+        if(dayFromLast >= 1) {
+            let webScraper = WebScraper()
+            webScraper.getAllStandings()
+            UserDefaults.standard.set(date, forKey: "lastVisitedStandings")
+        }
     }
     
     func loadSchools() {
@@ -52,24 +65,26 @@ class StandingsCVC: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "standingsCell", for: indexPath) as! StandingsCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "standingsCell", for: indexPath) as! StandingsCollectionViewCell
         let school = schools[indexPath.section]
         let color = school.color as! Color
         let sports: [Sport] = school.sports?.array as! [Sport]
         let sport = sports[indexPath.row]
         cell.backgroundColor = color.color
-        cell.Team.text = "\(sport.type!)"
+        cell.sportNameLabel.text = sport.type
         if(sport.nwcTies == "" && sport.overallTies == "") {
-            cell.Record.text = "NWC: \(sport.nwcWins!) - \(sport.nwcLosses!)\nOverall: \(sport.overallWins!) - \(sport.overallLosses!)"
+            cell.nwcRecordLabel.text = "NWC: \(sport.nwcWins!) - \(sport.nwcLosses!)"
+            cell.overallRecordLabel.text = "Overall: \(sport.overallWins!) - \(sport.overallLosses!)"
         } else {
-            cell.Record.text = "NWC: \(sport.nwcWins!) - \(sport.nwcTies!) - \(sport.nwcLosses!)\nOverall: \(sport.overallWins!) - \(sport.overallTies!) - \(sport.overallLosses!)"
+            cell.nwcRecordLabel.text = "NWC: \(sport.nwcWins!) - \(sport.nwcTies!) - \(sport.nwcLosses!)"
+            cell.overallRecordLabel.text = "Overall: \(sport.overallWins!) - \(sport.overallTies!) - \(sport.overallLosses!)"
         }
-        cell.Logo.image = UIImage(named: school.logo!)
+        cell.logoImageView.image = UIImage(named: school.logo!)
         
         return cell
     }
     
-    //adding a header for each section
+    // Adding a header for each section
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SectionHeader", for: indexPath) as! StandingsHeaderView

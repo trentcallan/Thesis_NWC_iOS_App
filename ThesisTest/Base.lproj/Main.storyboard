@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--ScheduleTVC-->
+        <!--Sport For Schedule Table View Controller-->
         <scene sceneID="JG0-v8-WZx">
             <objects>
-                <tableViewController id="1Ii-0X-KpD" customClass="ScheduleTVC" customModule="ThesisTest" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="1Ii-0X-KpD" customClass="SportForScheduleTableViewController" customModule="ThesisTest" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="TzU-ng-aEn">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -41,16 +41,16 @@
             </objects>
             <point key="canvasLocation" x="2806" y="-270"/>
         </scene>
-        <!--Schedule2TVC-->
+        <!--Schedule Table View Controller-->
         <scene sceneID="s77-1g-1bi">
             <objects>
-                <tableViewController id="YGP-wz-XsT" customClass="Schedule2TVC" customModule="ThesisTest" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="YGP-wz-XsT" customClass="ScheduleTableViewController" customModule="ThesisTest" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="DDz-ye-Cdc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="schedule2cell" rowHeight="240" id="vau-dy-BJr" customClass="Schedule2Cell" customModule="ThesisTest" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="schedule2cell" rowHeight="240" id="vau-dy-BJr" customClass="ScheduleTableViewCell" customModule="ThesisTest" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="240"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vau-dy-BJr" id="cfH-CF-mns">
@@ -132,12 +132,12 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="dateLbl" destination="dr0-HD-Spm" id="IO7-mp-PBZ"/>
-                                    <outlet property="notesLbl" destination="8fU-ni-aJH" id="UFV-zZ-N5C"/>
-                                    <outlet property="team1Lbl" destination="RvV-Xg-Tkc" id="wvk-vR-cgH"/>
-                                    <outlet property="team1ScoreLbl" destination="SRE-9d-iiU" id="2ZO-fK-hIr"/>
-                                    <outlet property="team2Lbl" destination="2jX-i8-5kf" id="8Jh-AP-eze"/>
-                                    <outlet property="team2ScoreLbl" destination="bMP-bx-dzl" id="WWG-Eo-AKa"/>
+                                    <outlet property="dateLabel" destination="dr0-HD-Spm" id="Mik-eh-x8r"/>
+                                    <outlet property="notesLabel" destination="8fU-ni-aJH" id="AJ7-bJ-aNp"/>
+                                    <outlet property="team1Label" destination="RvV-Xg-Tkc" id="sdF-sI-zDw"/>
+                                    <outlet property="team1ScoreLabel" destination="SRE-9d-iiU" id="qyJ-Vw-pOt"/>
+                                    <outlet property="team2Label" destination="2jX-i8-5kf" id="4DC-BQ-hLD"/>
+                                    <outlet property="team2ScoreLabel" destination="bMP-bx-dzl" id="uEl-I4-CSx"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -154,74 +154,87 @@
         <!--Standings-->
         <scene sceneID="KHZ-Qg-K9H">
             <objects>
-                <collectionViewController id="b9k-Rw-CFD" customClass="StandingsCVC" customModule="ThesisTest" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController id="b9k-Rw-CFD" customClass="StandingsCollectionViewController" customModule="ThesisTest" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="psO-he-xc2">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Frr-HG-N1z">
-                            <size key="itemSize" width="375" height="198"/>
+                            <size key="itemSize" width="375" height="116"/>
                             <size key="headerReferenceSize" width="50" height="100"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="1" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="standingsCell" id="BEE-Ek-1at" customClass="StandingsCell" customModule="ThesisTest" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="101" width="375" height="198"/>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="standingsCell" id="BEE-Ek-1at" customClass="StandingsCollectionViewCell" customModule="ThesisTest" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="101" width="375" height="116"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="198"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="116"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="iUO-zy-lKc">
-                                            <rect key="frame" x="16" y="36" width="343" height="64"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g1X-uK-JH2">
+                                            <rect key="frame" x="8" y="26" width="64" height="64"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="64" id="8gR-df-nVA"/>
+                                                <constraint firstAttribute="height" constant="64" id="eps-3y-esR"/>
+                                            </constraints>
+                                        </imageView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="UuB-qC-aEV">
+                                            <rect key="frame" x="80" y="26" width="287" height="64"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="g1X-uK-JH2">
-                                                    <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="64" id="Us2-tc-KDO"/>
-                                                        <constraint firstAttribute="height" constant="64" id="rk3-a5-h2x"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kPp-kF-g6X">
-                                                    <rect key="frame" x="72" y="0.0" width="271" height="64"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kPp-kF-g6X" userLabel="sportNameLabel">
+                                                    <rect key="frame" x="0.0" y="0.0" width="287" height="40"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="9P1-fT-d18">
+                                                    <rect key="frame" x="0.0" y="40" width="287" height="24"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TM9-Jj-v1t" userLabel="nwcRecord">
+                                                            <rect key="frame" x="0.0" y="0.0" width="143.5" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uym-G8-oVp" userLabel="overallRecord">
+                                                            <rect key="frame" x="143.5" y="0.0" width="143.5" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="trailing" secondItem="Uym-G8-oVp" secondAttribute="trailing" id="9IN-p4-g5O"/>
+                                                        <constraint firstItem="TM9-Jj-v1t" firstAttribute="top" secondItem="9P1-fT-d18" secondAttribute="top" id="DJ1-kP-K0E"/>
+                                                        <constraint firstItem="Uym-G8-oVp" firstAttribute="leading" secondItem="TM9-Jj-v1t" secondAttribute="trailing" id="JJG-dy-HJ9"/>
+                                                        <constraint firstAttribute="bottom" secondItem="TM9-Jj-v1t" secondAttribute="bottom" id="P0Y-jM-HUP"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Uym-G8-oVp" secondAttribute="bottom" id="Wdo-cM-4k5"/>
+                                                        <constraint firstItem="TM9-Jj-v1t" firstAttribute="leading" secondItem="9P1-fT-d18" secondAttribute="leading" id="gTi-cB-faO"/>
+                                                        <constraint firstItem="Uym-G8-oVp" firstAttribute="top" secondItem="9P1-fT-d18" secondAttribute="top" id="wJq-yw-yjd"/>
+                                                        <constraint firstItem="Uym-G8-oVp" firstAttribute="leading" secondItem="TM9-Jj-v1t" secondAttribute="trailing" id="y5s-QP-r6Z"/>
+                                                    </constraints>
+                                                </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="g1X-uK-JH2" firstAttribute="top" secondItem="iUO-zy-lKc" secondAttribute="top" id="0vN-OG-WpF"/>
-                                                <constraint firstAttribute="trailing" secondItem="kPp-kF-g6X" secondAttribute="trailing" id="CjM-CF-aPW"/>
-                                                <constraint firstItem="kPp-kF-g6X" firstAttribute="top" secondItem="iUO-zy-lKc" secondAttribute="top" id="fWd-NG-2K0"/>
-                                                <constraint firstAttribute="bottom" secondItem="kPp-kF-g6X" secondAttribute="bottom" id="l0n-wa-nH5"/>
-                                                <constraint firstAttribute="height" constant="64" id="ne9-Ow-ge8"/>
-                                                <constraint firstItem="g1X-uK-JH2" firstAttribute="leading" secondItem="iUO-zy-lKc" secondAttribute="leading" id="q8x-Wd-9rv"/>
+                                                <constraint firstAttribute="height" constant="64" id="CT1-zK-xNT"/>
                                             </constraints>
                                         </stackView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="20" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TM9-Jj-v1t" userLabel="Record">
-                                            <rect key="frame" x="16" y="108" width="343" height="48"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="48" id="SX1-dL-RoC"/>
-                                            </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                            <nil key="textColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
                                     </subviews>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="trailingMargin" secondItem="TM9-Jj-v1t" secondAttribute="trailing" constant="8" id="FDH-88-Q0O"/>
-                                    <constraint firstItem="iUO-zy-lKc" firstAttribute="leading" secondItem="BEE-Ek-1at" secondAttribute="leadingMargin" constant="8" id="Gkc-6m-NcE"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="iUO-zy-lKc" secondAttribute="trailing" constant="8" id="JVn-vV-6F4"/>
-                                    <constraint firstItem="iUO-zy-lKc" firstAttribute="top" secondItem="BEE-Ek-1at" secondAttribute="topMargin" constant="8" id="NW5-KI-NdV"/>
-                                    <constraint firstItem="TM9-Jj-v1t" firstAttribute="top" secondItem="iUO-zy-lKc" secondAttribute="bottom" constant="8" id="Sj9-65-SxM"/>
-                                    <constraint firstItem="TM9-Jj-v1t" firstAttribute="leading" secondItem="BEE-Ek-1at" secondAttribute="leadingMargin" constant="8" id="f99-I6-qvb"/>
+                                    <constraint firstItem="g1X-uK-JH2" firstAttribute="leading" secondItem="BEE-Ek-1at" secondAttribute="leadingMargin" id="3QB-wx-q73"/>
+                                    <constraint firstItem="UuB-qC-aEV" firstAttribute="leading" secondItem="g1X-uK-JH2" secondAttribute="trailing" constant="8" id="NlX-G5-YxM"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="UuB-qC-aEV" secondAttribute="trailing" id="XZi-ly-sIe"/>
+                                    <constraint firstItem="g1X-uK-JH2" firstAttribute="centerY" secondItem="BEE-Ek-1at" secondAttribute="centerY" id="Y6B-b9-9xc"/>
+                                    <constraint firstItem="UuB-qC-aEV" firstAttribute="centerY" secondItem="BEE-Ek-1at" secondAttribute="centerY" id="YQZ-jO-PD0"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="Logo" destination="g1X-uK-JH2" id="Wi3-b3-B7p"/>
-                                    <outlet property="Record" destination="TM9-Jj-v1t" id="eYz-fP-f4i"/>
-                                    <outlet property="Team" destination="kPp-kF-g6X" id="fnb-I3-Fqi"/>
+                                    <outlet property="logoImageView" destination="g1X-uK-JH2" id="aDY-d1-0gd"/>
+                                    <outlet property="nwcRecordLabel" destination="TM9-Jj-v1t" id="m3l-AA-k5W"/>
+                                    <outlet property="overallRecordLabel" destination="Uym-G8-oVp" id="XZK-NP-Mlh"/>
+                                    <outlet property="sportNameLabel" destination="kPp-kF-g6X" id="oGI-vy-Nci"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -285,13 +298,13 @@
         <!--Live-->
         <scene sceneID="us1-HY-bgX">
             <objects>
-                <tableViewController id="fnV-Rs-6Ig" customClass="LiveEventsTVC" customModule="ThesisTest" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="fnV-Rs-6Ig" customClass="LiveEventsTableViewController" customModule="ThesisTest" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="PAx-wb-1Tr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveEvent" rowHeight="176" id="bKi-fD-Kix" customClass="LiveEventCell" customModule="ThesisTest" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="liveEvent" rowHeight="176" id="bKi-fD-Kix" customClass="LiveEventTableViewCell" customModule="ThesisTest" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="176"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="bKi-fD-Kix" id="TQb-CW-pp0">
@@ -379,12 +392,12 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="notes" destination="IHU-mA-yrj" id="k6g-cr-OHt"/>
-                                    <outlet property="sport" destination="14i-d8-kah" id="AdR-K5-WL7"/>
-                                    <outlet property="team1" destination="SR1-yo-bZ7" id="WEs-si-Tad"/>
-                                    <outlet property="team1Score" destination="nuJ-mB-Obs" id="6pl-Fn-lK5"/>
-                                    <outlet property="team2" destination="cvZ-rV-oTA" id="EyT-H3-DNd"/>
-                                    <outlet property="team2Score" destination="idN-GB-Fpr" id="pv3-DX-qpq"/>
+                                    <outlet property="notesLabel" destination="IHU-mA-yrj" id="fpz-HB-t2T"/>
+                                    <outlet property="sportNameLabel" destination="14i-d8-kah" id="vyC-5Z-D5D"/>
+                                    <outlet property="team1Label" destination="SR1-yo-bZ7" id="y6m-St-Ykq"/>
+                                    <outlet property="team1ScoreLabel" destination="nuJ-mB-Obs" id="SIi-Ma-jRy"/>
+                                    <outlet property="team2Label" destination="cvZ-rV-oTA" id="nGp-vd-yNI"/>
+                                    <outlet property="team2ScoreLabel" destination="idN-GB-Fpr" id="ROJ-Sw-l2g"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

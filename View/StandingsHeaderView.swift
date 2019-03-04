@@ -29,4 +29,5 @@ class StandingsHeaderView: UICollectionReusableView {
         self.layer.addSublayer(border2)
         self.layer.masksToBounds = true
     }
+    
 }

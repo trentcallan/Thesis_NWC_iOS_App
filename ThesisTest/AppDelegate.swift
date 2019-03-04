@@ -21,9 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if(UserDefaults.standard.bool(forKey: "haveThingsBeenDownloaded") == nil) {
             UserDefaults.standard.set(false, forKey: "haveThingsBeenDownloaded")
         }
-
+        
         //if everything hasn't been downloaded
         if(!UserDefaults.standard.bool(forKey: "haveThingsBeenDownloaded")) {
+            print("everything is downloading...")
             let webScraper = WebScraper()
             //make sure everything is deleted first
             webScraper.deleteAll()

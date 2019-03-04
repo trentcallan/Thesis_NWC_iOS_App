@@ -16,7 +16,7 @@ var teamAbbr: [String] = ["bsb", "sball", "mbkb", "wbkb", "msoc", "wsoc", "fball
 var abbrDict: [String : String] = ["bsb" : "Baseball", "sball" : "Softball", "mbkb" : "Men's Basketball", "wbkb" : "Women's Basketball", "msoc" : "Men's Soccer", "wsoc" : "Women's Soccer", "fball" : "Football", "mten" : "Men's Tennis", "wten" : "Women's Tennis", "wlax" : "Women's Lacrosse", "wvball" : "Women's Volleyball"]
 var sportToAbbr: [String : String] = ["Baseball": "bsb", "Softball": "sball", "Men's Basketball": "mbkb", "Women's Basketball" : "wbkb", "Men's Soccer" : "msoc", "Women's Soccer" : "wsoc", "Football" : "fball", "Men's Tennis" : "mten", "Women's Tennis" : "wten", "Women's Lacrosse" : "wlax", "Women's Volleyball" : "wvball"]
 
-class ScheduleTVC: UITableViewController {
+class SportForScheduleTableViewController: UITableViewController {
 
     var sportToSend: String = ""
     
@@ -30,7 +30,19 @@ class ScheduleTVC: UITableViewController {
         //womens - cross country, golf, rowing, track and field, swimming
         //these need a different algorithm to get their data
         
-        //works for these: baseball, softball, mens bball, womens bball, mens soccer, womens soccer, football, mens tennis, womens tennis, womens lax and womens volleyball
+        // If it's the first time loading this viewcontroller
+        let date = Date()
+        if(UserDefaults.standard.object(forKey: "lastVisitedSchedule") == nil) {
+            UserDefaults.standard.set(date, forKey: "lastVisitedSchedule")
+        }
+        // Else find if it's been more than a day since updating
+        let lastTime = UserDefaults.standard.object(forKey: "lastVisitedSchedule") as! Date
+        let dayFromLast = Calendar.current.dateComponents([.day], from: lastTime, to: date).day ?? 0
+        if(dayFromLast >= 1) {
+            let webScraper = WebScraper()
+            webScraper.getAllEvents()
+            UserDefaults.standard.set(date, forKey: "lastVisitedSchedule")
+        }
 
     }
     
@@ -55,8 +67,8 @@ class ScheduleTVC: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let schedule2TVC = segue.destination as! Schedule2TVC
-        schedule2TVC.sport = self.sportToSend
+        let scheduleTVC = segue.destination as! ScheduleTableViewController
+        scheduleTVC.sport = self.sportToSend
     }
 
     

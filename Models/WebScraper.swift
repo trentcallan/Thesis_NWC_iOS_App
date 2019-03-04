@@ -13,18 +13,12 @@ import SwiftSoup
 
 class WebScraper {
     
-    //var appDelegate: AppDelegate!
     let teamAbbr: [String] = ["bsb", "sball", "mbkb", "wbkb", "msoc", "wsoc", "fball", "mten", "wten", "wlax", "wvball"]
     let abbrDict: [String : String] = ["bsb" : "Baseball", "sball" : "Softball", "mbkb" : "Men's Basketball", "wbkb" : "Women's Basketball", "msoc" : "Men's Soccer", "wsoc" : "Women's Soccer", "fball" : "Football", "mten" : "Men's Tennis", "wten" : "Women's Tennis", "wlax" : "Women's Lacrosse", "wvball" : "Women's Volleyball"]
     let sportToAbbr: [String : String] = ["Baseball": "bsb", "Softball": "sball", "Men's Basketball": "mbkb", "Women's Basketball" : "wbkb", "Men's Soccer" : "msoc", "Women's Soccer" : "wsoc", "Football" : "fball", "Men's Tennis" : "mten", "Women's Tennis" : "wten", "Women's Lacrosse" : "wlax", "Women's Volleyball" : "wvball"]
     
-    init() {
-        //guard let tempAppDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        //self.appDelegate = tempAppDelegate
-    }
-    
 /******************************************************************************************************/
-//functions below in this section are for the standingsCVC
+// Functions below in this section are for the standingsCVC
     
     func getAllStandings() {
         for sport in teamAbbr {
@@ -44,7 +38,7 @@ class WebScraper {
         do {
             let doc: Document = try SwiftSoup.parseBodyFragment(html)
             
-            //class:event-group contains all games for a day on most sports web page
+            // Class:event-group contains all games for a day on most sports web page
             let standingGroups: Elements = try doc.select("[class^=stats-row]")
             
             for standing in standingGroups {
@@ -61,14 +55,14 @@ class WebScraper {
     func cssQueryStandings(event: Element, teamAbbreviation: String) {
         
         do {
-            //css query calls for class names
+            // CSS query calls for class names
             let conferenceFields = try event.select("[class=conf-field]")
             let generalFields = try event.select("[class=stats-field]")
             let team = try event.select("[class^=stats-team]")
-            //need to load school based on name so we can add the sports
+            // Need to load school based on name so we can add the sports
             let teamName = try team.text()
             
-            //getting strings - be careful of 'get' will get error and crash if there is no element
+            // Getting strings - be careful of 'get' will get error and crash if there is no element
             let confRecord = try conferenceFields.get(1).text()
             let confRecordComponents = confRecord.components(separatedBy: "-")
             var confWins = ""
@@ -99,7 +93,6 @@ class WebScraper {
             
             let sport = abbrDict[teamAbbreviation]
             addtoSport(schoolName: teamName, sportName: sport!, overallWins: overallWins, overallLosses: overallLosses, overallTies: overallTies, confWins: confWins, confLosses: confLosses, confTies: confTies)
-            //print("\(teamName) conf: \(confWins)-\(confTies)-\(confLosses) overall: \(overallWins)-\(overallTies)-\(overallLosses)")
             
         } catch Exception.Error(let type, let message) {
             print("Message: \(message)")
@@ -113,7 +106,7 @@ class WebScraper {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
-        //get the school
+        // Get the school
         var school = [School]()
         let request = NSFetchRequest<School>(entityName: "School")
         let commitPredicate = NSPredicate(format: "name == %@", schoolName)
@@ -144,7 +137,7 @@ class WebScraper {
     
 /*****************************************************************************************************/
     
-    //sets up all NWC schools in core data
+    // Sets up all NWC schools in core data
     func setUpNWCSchools() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -194,7 +187,7 @@ class WebScraper {
     }
     
 /********************************************************************************************************/
-    //functions below in this section are for schedule2TVC
+    // Functions below in this section are for schedule2TVC
 
     func getAllEvents() {
         for sportStr in teamAbbr {
@@ -213,11 +206,11 @@ class WebScraper {
         
         do {
             let doc: Document = try SwiftSoup.parseBodyFragment(html)
-            //class:event-group contains all games for a day on most sports web page
+            // Class:event-group contains all games for a day on most sports web page
             let eventGroups: Elements = try doc.select("[class=event-group]")
             
             for eventDay in eventGroups {
-                //there is only a class called event row if there are multiple events on a day
+                // There is only one class called event row if there are multiple events on a day
                 let multipleRows = try eventDay.select("[class^=event-row]")
                 if(multipleRows.size() != 0 ) {
                     for subEventDay in multipleRows {
@@ -238,7 +231,7 @@ class WebScraper {
     func cssQueryEvent(event: Element, sport: String) {
         
         do {
-            //css query calls for class names
+            // CSS query calls for class names
             let date = try event.select("[class=date]")
             let team = try event.select("[class^=team-name]")
             let score = try event.select("[class=team-score]")
@@ -246,7 +239,7 @@ class WebScraper {
             let notes = try event.select("[class^=notes]")
             let links = try event.select("[class=links]")
             
-            //getting strings - be careful of 'get' will get error and crash if there is no element
+            // Getting strings - be careful of 'get' will get error and crash if there is no element
             let dateStr = try date.text()
             let team1 = try team.get(0).text()
             let team2 = try team.get(1).text()
@@ -254,13 +247,13 @@ class WebScraper {
             let score2 = try score.get(1).text()
             let statusStr = try status.get(0).text()
             
-            //how to handle cases where a class is used on some events and not others
+            // How to handle cases where a class is used on some events and not others
             var notesStr = ""
             if(notes.size() != 0) {
                 notesStr = try notes.get(0).text()
             }
             
-            //getting links
+            // Getting links
             let link = try links.select("[class=link]")
             let text = try links.select("[class=text]")
             var dict = [String : String]()
@@ -275,7 +268,6 @@ class WebScraper {
             }
             
             addToEvent(team1: team1, team2: team2, date: dateStr, status: statusStr, notes: notesStr, team1Score: score1, team2Score: score2, sport: sport)
-            //print("date: \(dateStr)\nteam1: \(team1) score: \(score1)\nteam2: \(team2) score: \(score2)\nstatus: \(statusStr)\nnotes: \(notesStr)")
             
         } catch Exception.Error(let type, let message) {
             print("Message: \(message)")
@@ -307,7 +299,7 @@ class WebScraper {
     }
     
 /********************************************************************************************************/
-    //functions below in section are for the LiveEventsTVC
+    // Functions below in section are for the LiveEventsTVC
     
     func updateLiveEventsFromWebsite(teamAbbreviation: String) {
         
@@ -339,14 +331,14 @@ class WebScraper {
         let managedContext = appDelegate.persistentContainer.viewContext
         
         do {
-            //css query calls for class names
+            // CSS query calls for class names
             let date = try event.select("[class=date]")
             let team = try event.select("[class^=team-name]")
             let score = try event.select("[class=team-score]")
             let status = try event.select("[class^=status]")
             let notes = try event.select("[class^=notes]")
             
-            //getting strings - be careful of 'get' will get error and crash if there is no element
+            // Getting strings - be careful of 'get' will get error and crash if there is no element
             let dateStr = try date.text()
             let team1 = try team.get(0).text()
             let team2 = try team.get(1).text()
@@ -354,7 +346,7 @@ class WebScraper {
             let score2 = try score.get(1).text()
             let statusStr = try status.get(0).text()
             
-            //how to handle cases where a class is used on some events and not others
+            // How to handle cases where a class is used on some events and not others
             var notesStr = ""
             if(notes.size() != 0) {
                 notesStr = try notes.get(0).text()
@@ -378,9 +370,8 @@ class WebScraper {
             
             if(currentEvents.count > 0) {
                 let currentEvent = currentEvents[0]
-                //print("sport: \(currentEvent.sport)\nteam1: \(currentEvent.team1)score: \(score1)\nteam2: \(currentEvent.team2)score: \(score2)\nstatus: \(statusStr)\nnotes: \(notesStr)")
                 
-                //replace old values with new values
+                // Replace old values with new values
                 currentEvent.team1 = team1
                 currentEvent.team2 = team2
                 currentEvent.team1Score = score1
@@ -396,7 +387,8 @@ class WebScraper {
         } catch {
             print("error")
         }
-        //save the updated context
+        
+        // Save the updated context
         do {
             try managedContext.save()
         } catch let error as NSError {
@@ -405,7 +397,7 @@ class WebScraper {
     }
     
 /********************************************************************************************************/
-    //delete functions if needed for each core data model
+    //Delete functions if needed for each core data model
     
     func deleteAll() {
         deleteSports()
@@ -417,7 +409,7 @@ class WebScraper {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        //request all schools
+        // Request all schools
         let request1 = NSFetchRequest<School>(entityName: "School")
         do {
             let result1 = try managedContext.fetch(request1)
@@ -439,7 +431,7 @@ class WebScraper {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        //request all schools
+        // Request all schools
         let request1 = NSFetchRequest<Sport>(entityName: "Sport")
         do {
             let result1 = try managedContext.fetch(request1)
@@ -461,7 +453,7 @@ class WebScraper {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        //request all schools
+        // Request all schools
         let request1 = NSFetchRequest<Event>(entityName: "Event")
         do {
             let result1 = try managedContext.fetch(request1)

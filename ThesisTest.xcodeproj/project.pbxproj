@@ -14,10 +14,10 @@
 		F5082D452145CB5200D1DD9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F5082D432145CB5200D1DD9C /* LaunchScreen.storyboard */; };
 		F5082D502145CB5200D1DD9C /* ThesisTestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5082D4F2145CB5200D1DD9C /* ThesisTestTests.swift */; };
 		F5082D5B2145CB5200D1DD9C /* ThesisTestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5082D5A2145CB5200D1DD9C /* ThesisTestUITests.swift */; };
-		F50F628C2201008E00F1BC91 /* StandingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F628B2201008E00F1BC91 /* StandingsCVC.swift */; };
-		F50F628F2201024B00F1BC91 /* StandingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F628E2201024B00F1BC91 /* StandingsCell.swift */; };
-		F50F62912202614F00F1BC91 /* ScheduleTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62902202614F00F1BC91 /* ScheduleTVC.swift */; };
-		F50F62982211F93D00F1BC91 /* Schedule2TVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62972211F93D00F1BC91 /* Schedule2TVC.swift */; };
+		F50F628C2201008E00F1BC91 /* StandingsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F628B2201008E00F1BC91 /* StandingsCollectionViewController.swift */; };
+		F50F628F2201024B00F1BC91 /* StandingsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F628E2201024B00F1BC91 /* StandingsCollectionViewCell.swift */; };
+		F50F62912202614F00F1BC91 /* SportForScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62902202614F00F1BC91 /* SportForScheduleTableViewController.swift */; };
+		F50F62982211F93D00F1BC91 /* ScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62972211F93D00F1BC91 /* ScheduleTableViewController.swift */; };
 		F50F62C722121A9600F1BC91 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F50F62C522121A9600F1BC91 /* Model.xcdatamodeld */; };
 		F50F62DC2215448400F1BC91 /* Sport+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62D82215448300F1BC91 /* Sport+CoreDataProperties.swift */; };
 		F50F62DD2215448400F1BC91 /* School+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62D92215448300F1BC91 /* School+CoreDataClass.swift */; };
@@ -25,11 +25,11 @@
 		F50F62DF2215448400F1BC91 /* School+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62DB2215448400F1BC91 /* School+CoreDataProperties.swift */; };
 		F50F62E22215EFE500F1BC91 /* Event+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62E02215EFE500F1BC91 /* Event+CoreDataClass.swift */; };
 		F50F62E32215EFE500F1BC91 /* Event+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62E12215EFE500F1BC91 /* Event+CoreDataProperties.swift */; };
-		F50F62E52217479600F1BC91 /* Schedule2Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62E42217479600F1BC91 /* Schedule2Cell.swift */; };
+		F50F62E52217479600F1BC91 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62E42217479600F1BC91 /* ScheduleTableViewCell.swift */; };
 		F50F62E7221F524500F1BC91 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62E6221F524500F1BC91 /* Color.swift */; };
 		F50F62E92221D22900F1BC91 /* StandingsHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62E82221D22900F1BC91 /* StandingsHeaderView.swift */; };
-		F50F62EB2221DEA300F1BC91 /* LiveEventsTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62EA2221DEA300F1BC91 /* LiveEventsTVC.swift */; };
-		F50F62ED2221DF0C00F1BC91 /* LiveEventCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62EC2221DF0C00F1BC91 /* LiveEventCell.swift */; };
+		F50F62EB2221DEA300F1BC91 /* LiveEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62EA2221DEA300F1BC91 /* LiveEventsTableViewController.swift */; };
+		F50F62ED2221DF0C00F1BC91 /* LiveEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62EC2221DF0C00F1BC91 /* LiveEventTableViewCell.swift */; };
 		F51028202225CA0100FE1505 /* WebScraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F510281F2225CA0100FE1505 /* WebScraper.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,10 +68,10 @@
 		F5082D562145CB5200D1DD9C /* ThesisTestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ThesisTestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5082D5A2145CB5200D1DD9C /* ThesisTestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThesisTestUITests.swift; sourceTree = "<group>"; };
 		F5082D5C2145CB5200D1DD9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F50F628B2201008E00F1BC91 /* StandingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsCVC.swift; sourceTree = "<group>"; };
-		F50F628E2201024B00F1BC91 /* StandingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsCell.swift; sourceTree = "<group>"; };
-		F50F62902202614F00F1BC91 /* ScheduleTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTVC.swift; sourceTree = "<group>"; };
-		F50F62972211F93D00F1BC91 /* Schedule2TVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule2TVC.swift; sourceTree = "<group>"; };
+		F50F628B2201008E00F1BC91 /* StandingsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsCollectionViewController.swift; sourceTree = "<group>"; };
+		F50F628E2201024B00F1BC91 /* StandingsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsCollectionViewCell.swift; sourceTree = "<group>"; };
+		F50F62902202614F00F1BC91 /* SportForScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportForScheduleTableViewController.swift; sourceTree = "<group>"; };
+		F50F62972211F93D00F1BC91 /* ScheduleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewController.swift; sourceTree = "<group>"; };
 		F50F62C622121A9600F1BC91 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		F50F62D82215448300F1BC91 /* Sport+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Sport+CoreDataProperties.swift"; path = "/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/Sport+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		F50F62D92215448300F1BC91 /* School+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "School+CoreDataClass.swift"; path = "/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/School+CoreDataClass.swift"; sourceTree = "<absolute>"; };
@@ -79,11 +79,11 @@
 		F50F62DB2215448400F1BC91 /* School+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "School+CoreDataProperties.swift"; path = "/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/School+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		F50F62E02215EFE500F1BC91 /* Event+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Event+CoreDataClass.swift"; path = "/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/Event+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		F50F62E12215EFE500F1BC91 /* Event+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Event+CoreDataProperties.swift"; path = "/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/Event+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		F50F62E42217479600F1BC91 /* Schedule2Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule2Cell.swift; sourceTree = "<group>"; };
+		F50F62E42217479600F1BC91 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		F50F62E6221F524500F1BC91 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		F50F62E82221D22900F1BC91 /* StandingsHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsHeaderView.swift; sourceTree = "<group>"; };
-		F50F62EA2221DEA300F1BC91 /* LiveEventsTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveEventsTVC.swift; sourceTree = "<group>"; };
-		F50F62EC2221DF0C00F1BC91 /* LiveEventCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveEventCell.swift; sourceTree = "<group>"; };
+		F50F62EA2221DEA300F1BC91 /* LiveEventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveEventsTableViewController.swift; sourceTree = "<group>"; };
+		F50F62EC2221DF0C00F1BC91 /* LiveEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveEventTableViewCell.swift; sourceTree = "<group>"; };
 		F510281F2225CA0100FE1505 /* WebScraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebScraper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -164,10 +164,10 @@
 				F5082D412145CB5200D1DD9C /* Assets.xcassets */,
 				F5082D432145CB5200D1DD9C /* LaunchScreen.storyboard */,
 				F5082D462145CB5200D1DD9C /* Info.plist */,
-				F50F628B2201008E00F1BC91 /* StandingsCVC.swift */,
-				F50F62902202614F00F1BC91 /* ScheduleTVC.swift */,
-				F50F62972211F93D00F1BC91 /* Schedule2TVC.swift */,
-				F50F62EA2221DEA300F1BC91 /* LiveEventsTVC.swift */,
+				F50F628B2201008E00F1BC91 /* StandingsCollectionViewController.swift */,
+				F50F62902202614F00F1BC91 /* SportForScheduleTableViewController.swift */,
+				F50F62972211F93D00F1BC91 /* ScheduleTableViewController.swift */,
+				F50F62EA2221DEA300F1BC91 /* LiveEventsTableViewController.swift */,
 			);
 			path = ThesisTest;
 			sourceTree = "<group>";
@@ -209,10 +209,10 @@
 		F50F628D2201022500F1BC91 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F50F628E2201024B00F1BC91 /* StandingsCell.swift */,
-				F50F62E42217479600F1BC91 /* Schedule2Cell.swift */,
+				F50F628E2201024B00F1BC91 /* StandingsCollectionViewCell.swift */,
+				F50F62E42217479600F1BC91 /* ScheduleTableViewCell.swift */,
 				F50F62E82221D22900F1BC91 /* StandingsHeaderView.swift */,
-				F50F62EC2221DF0C00F1BC91 /* LiveEventCell.swift */,
+				F50F62EC2221DF0C00F1BC91 /* LiveEventTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -411,24 +411,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F50F62EB2221DEA300F1BC91 /* LiveEventsTVC.swift in Sources */,
+				F50F62EB2221DEA300F1BC91 /* LiveEventsTableViewController.swift in Sources */,
 				F50F62E32215EFE500F1BC91 /* Event+CoreDataProperties.swift in Sources */,
-				F50F628F2201024B00F1BC91 /* StandingsCell.swift in Sources */,
+				F50F628F2201024B00F1BC91 /* StandingsCollectionViewCell.swift in Sources */,
 				F50F62E22215EFE500F1BC91 /* Event+CoreDataClass.swift in Sources */,
 				F5082D3B2145CB5200D1DD9C /* AppDelegate.swift in Sources */,
 				F50F62E92221D22900F1BC91 /* StandingsHeaderView.swift in Sources */,
-				F50F62912202614F00F1BC91 /* ScheduleTVC.swift in Sources */,
+				F50F62912202614F00F1BC91 /* SportForScheduleTableViewController.swift in Sources */,
 				F50F62DD2215448400F1BC91 /* School+CoreDataClass.swift in Sources */,
-				F50F62E52217479600F1BC91 /* Schedule2Cell.swift in Sources */,
-				F50F628C2201008E00F1BC91 /* StandingsCVC.swift in Sources */,
+				F50F62E52217479600F1BC91 /* ScheduleTableViewCell.swift in Sources */,
+				F50F628C2201008E00F1BC91 /* StandingsCollectionViewController.swift in Sources */,
 				F50F62DE2215448400F1BC91 /* Sport+CoreDataClass.swift in Sources */,
 				F50F62E7221F524500F1BC91 /* Color.swift in Sources */,
 				F50F62DC2215448400F1BC91 /* Sport+CoreDataProperties.swift in Sources */,
-				F50F62982211F93D00F1BC91 /* Schedule2TVC.swift in Sources */,
+				F50F62982211F93D00F1BC91 /* ScheduleTableViewController.swift in Sources */,
 				F50F62DF2215448400F1BC91 /* School+CoreDataProperties.swift in Sources */,
 				F51028202225CA0100FE1505 /* WebScraper.swift in Sources */,
 				F50F62C722121A9600F1BC91 /* Model.xcdatamodeld in Sources */,
-				F50F62ED2221DF0C00F1BC91 /* LiveEventCell.swift in Sources */,
+				F50F62ED2221DF0C00F1BC91 /* LiveEventTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

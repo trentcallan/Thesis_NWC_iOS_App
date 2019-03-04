@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class Schedule2TVC: UITableViewController {
+class ScheduleTableViewController: UITableViewController {
 
     var events: [Event] = []
     var sport: String = ""
@@ -17,6 +17,8 @@ class Schedule2TVC: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Set the first as selected
+        imageArr[0].backgroundColor = UIColor.green
         self.navigationItem.title = "\(sport) Schedule"
         loadEvents()
     }
@@ -34,21 +36,21 @@ class Schedule2TVC: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "schedule2cell", for: indexPath) as! Schedule2Cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "schedule2cell", for: indexPath) as! ScheduleTableViewCell
         let event = events[indexPath.row]
-        cell.dateLbl.text = event.date
-        cell.notesLbl.text = event.notes
-        cell.team1Lbl.text = event.team1
-        cell.team1ScoreLbl.text = event.team1Score
-        cell.team2Lbl.text = event.team2
-        cell.team2ScoreLbl.text = event.team2Score
+        cell.dateLabel.text = event.date
+        cell.notesLabel.text = event.notes
+        cell.team1Label.text = event.team1
+        cell.team1ScoreLabel.text = event.team1Score
+        cell.team2Label.text = event.team2
+        cell.team2ScoreLabel.text = event.team2Score
         return cell
     }
     
     var imageArr: [UIImageView] = [UIImageView(), UIImageView(image: UIImage(named: "willametteLogo")), UIImageView(image: UIImage(named: "pacificLogo")), UIImageView(image: UIImage(named: "pluLogo")), UIImageView(image: UIImage(named: "whitmanLogo")), UIImageView(image: UIImage(named: "whitworthLogo")), UIImageView(image: UIImage(named: "lewisLogo")), UIImageView(image: UIImage(named: "georgefoxLogo")), UIImageView(image: UIImage(named: "pugetsoundLogo")), UIImageView(image: UIImage(named: "linfieldLogo")), ]
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
+        
         let size: CGFloat = 60
         var xPos: CGFloat = 5
         var contentSize: CGFloat = 0
