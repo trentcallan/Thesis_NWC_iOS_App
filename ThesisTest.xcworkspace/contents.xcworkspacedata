@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/Event+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/Event+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/Sport+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/Sport+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/School+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:/Users/trentcallan/Desktop/Senior Year/Thesis/ThesisTest/Models/School+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:ThesisTest.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
+</Workspace>
