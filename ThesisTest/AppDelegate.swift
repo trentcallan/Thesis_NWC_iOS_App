@@ -17,25 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-
-        if(UserDefaults.standard.bool(forKey: "haveThingsBeenDownloaded") == nil) {
-            UserDefaults.standard.set(false, forKey: "haveThingsBeenDownloaded")
-        }
         
-        //if everything hasn't been downloaded
-        if(!UserDefaults.standard.bool(forKey: "haveThingsBeenDownloaded")) {
-            print("everything is downloading...")
-            let webScraper = WebScraper()
-            //make sure everything is deleted first
-            webScraper.deleteAll()
-            //set up the NWC schools (there are 9)
-            webScraper.setUpNWCSchools()
-            //get standings and events from NWC website and save them to core data
-            webScraper.getAllStandings()
-            webScraper.getAllEvents()
-            //everything has been downloaded
-            UserDefaults.standard.set(true, forKey: "haveThingsBeenDownloaded")
-        }
+        let webScraper = WebScraper()
+        webScraper.checkIfSchoolDataIsDownloaded()
         
         return true
     }

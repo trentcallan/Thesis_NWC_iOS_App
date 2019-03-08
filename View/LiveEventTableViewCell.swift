@@ -17,4 +17,12 @@ class LiveEventTableViewCell: UITableViewCell {
     @IBOutlet weak var sportNameLabel: UILabel!
     @IBOutlet weak var notesLabel: UILabel!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        sportNameLabel.backgroundColor = UIColor(red: 30/255, green: 144/255, blue: 255/255, alpha: 1)
+        
+    
+    }
+    
 }

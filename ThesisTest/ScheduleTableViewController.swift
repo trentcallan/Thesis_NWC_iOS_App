@@ -52,7 +52,7 @@ class ScheduleTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let size: CGFloat = 60
-        var xPos: CGFloat = 5
+        var xPosition: CGFloat = 5
         var contentSize: CGFloat = 0
         let scrollView = UIScrollView(frame: CGRect(x: 10, y: 5, width: (tableView.frame.width), height: size+10))
         scrollView.isScrollEnabled = true
@@ -72,11 +72,11 @@ class ScheduleTableViewController: UITableViewController {
             
             tempImgView.frame.size.height = size
             tempImgView.frame.size.width = size
-            tempImgView.frame.origin.x = xPos
+            tempImgView.frame.origin.x = xPosition
             tempImgView.frame.origin.y = 5
             tempImgView.contentMode = .scaleAspectFit
-            xPos += size
-            xPos += 10
+            xPosition += size
+            xPosition += 10
             contentSize += size
         }
         

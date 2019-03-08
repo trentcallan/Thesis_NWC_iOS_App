@@ -17,28 +17,16 @@ class StandingsCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.borderWidth = 2.0
+        self.layer.borderWidth = 1.0
         self.layer.borderColor = UIColor.black.cgColor
         self.layer.cornerRadius = 8.0
         
         self.clipsToBounds = false
         self.layer.masksToBounds = false
         self.layer.shadowRadius = 8.0
-        self.layer.shadowOffset = CGSize(width: 1, height: 0)
+        self.layer.shadowOffset = CGSize(width: 2, height: 2)
         self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.3
-        
-        /*Logo.layer.borderColor = UIColor.black.cgColor
-        Logo.layer.borderWidth = 2.0
-        
-        Team.layer.borderColor = UIColor.black.cgColor
-        Team.layer.borderWidth = 2.0
-        
-        nwcRecord.layer.borderColor = UIColor.black.cgColor
-        nwcRecord.layer.borderWidth = 2.0
-        
-        overallRecord.layer.borderColor = UIColor.black.cgColor
-        overallRecord.layer.borderWidth = 2.0*/
+        self.layer.shadowOpacity = 0.25
         
     }
     

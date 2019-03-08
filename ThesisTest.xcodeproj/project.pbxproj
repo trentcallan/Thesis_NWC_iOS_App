@@ -31,6 +31,8 @@
 		F50F62EB2221DEA300F1BC91 /* LiveEventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62EA2221DEA300F1BC91 /* LiveEventsTableViewController.swift */; };
 		F50F62ED2221DF0C00F1BC91 /* LiveEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F50F62EC2221DF0C00F1BC91 /* LiveEventTableViewCell.swift */; };
 		F51028202225CA0100FE1505 /* WebScraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F510281F2225CA0100FE1505 /* WebScraper.swift */; };
+		F51028242231977F00FE1505 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51028232231977F00FE1505 /* ActivityIndicatorView.swift */; };
+		F51028262231C36500FE1505 /* EmptyEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51028252231C36500FE1505 /* EmptyEventTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +87,8 @@
 		F50F62EA2221DEA300F1BC91 /* LiveEventsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveEventsTableViewController.swift; sourceTree = "<group>"; };
 		F50F62EC2221DF0C00F1BC91 /* LiveEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveEventTableViewCell.swift; sourceTree = "<group>"; };
 		F510281F2225CA0100FE1505 /* WebScraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebScraper.swift; sourceTree = "<group>"; };
+		F51028232231977F00FE1505 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
+		F51028252231C36500FE1505 /* EmptyEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyEventTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +217,8 @@
 				F50F62E42217479600F1BC91 /* ScheduleTableViewCell.swift */,
 				F50F62E82221D22900F1BC91 /* StandingsHeaderView.swift */,
 				F50F62EC2221DF0C00F1BC91 /* LiveEventTableViewCell.swift */,
+				F51028232231977F00FE1505 /* ActivityIndicatorView.swift */,
+				F51028252231C36500FE1505 /* EmptyEventTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -415,6 +421,7 @@
 				F50F62E32215EFE500F1BC91 /* Event+CoreDataProperties.swift in Sources */,
 				F50F628F2201024B00F1BC91 /* StandingsCollectionViewCell.swift in Sources */,
 				F50F62E22215EFE500F1BC91 /* Event+CoreDataClass.swift in Sources */,
+				F51028262231C36500FE1505 /* EmptyEventTableViewCell.swift in Sources */,
 				F5082D3B2145CB5200D1DD9C /* AppDelegate.swift in Sources */,
 				F50F62E92221D22900F1BC91 /* StandingsHeaderView.swift in Sources */,
 				F50F62912202614F00F1BC91 /* SportForScheduleTableViewController.swift in Sources */,
@@ -423,6 +430,7 @@
 				F50F628C2201008E00F1BC91 /* StandingsCollectionViewController.swift in Sources */,
 				F50F62DE2215448400F1BC91 /* Sport+CoreDataClass.swift in Sources */,
 				F50F62E7221F524500F1BC91 /* Color.swift in Sources */,
+				F51028242231977F00FE1505 /* ActivityIndicatorView.swift in Sources */,
 				F50F62DC2215448400F1BC91 /* Sport+CoreDataProperties.swift in Sources */,
 				F50F62982211F93D00F1BC91 /* ScheduleTableViewController.swift in Sources */,
 				F50F62DF2215448400F1BC91 /* School+CoreDataProperties.swift in Sources */,

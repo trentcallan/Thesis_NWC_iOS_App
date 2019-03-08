@@ -20,8 +20,9 @@ class StandingsHeaderView: UICollectionReusableView {
         let width = CGFloat(2.0)
         border1.borderColor = UIColor.black.cgColor
         border2.borderColor = UIColor.black.cgColor
-        border1.frame = CGRect(x: 0, y: self.frame.size.height - width, width:  self.frame.size.width+50, height:2)
-        border2.frame = CGRect(x: 0, y: 0, width:  self.frame.size.width+50, height: 2)
+        let screenWidth = UIScreen.main.bounds.width
+        border1.frame = CGRect(x: 0, y: self.frame.size.height - width, width: screenWidth, height:2)
+        border2.frame = CGRect(x: 0, y: 0, width: screenWidth, height: 2)
         
         border1.borderWidth = width
         border2.borderWidth = width

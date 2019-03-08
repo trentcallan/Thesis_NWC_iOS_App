@@ -16,14 +16,69 @@ class WebScraper {
     let teamAbbr: [String] = ["bsb", "sball", "mbkb", "wbkb", "msoc", "wsoc", "fball", "mten", "wten", "wlax", "wvball"]
     let abbrDict: [String : String] = ["bsb" : "Baseball", "sball" : "Softball", "mbkb" : "Men's Basketball", "wbkb" : "Women's Basketball", "msoc" : "Men's Soccer", "wsoc" : "Women's Soccer", "fball" : "Football", "mten" : "Men's Tennis", "wten" : "Women's Tennis", "wlax" : "Women's Lacrosse", "wvball" : "Women's Volleyball"]
     let sportToAbbr: [String : String] = ["Baseball": "bsb", "Softball": "sball", "Men's Basketball": "mbkb", "Women's Basketball" : "wbkb", "Men's Soccer" : "msoc", "Women's Soccer" : "wsoc", "Football" : "fball", "Men's Tennis" : "mten", "Women's Tennis" : "wten", "Women's Lacrosse" : "wlax", "Women's Volleyball" : "wvball"]
+    var appDelegate: AppDelegate
+    var managedContext: NSManagedObjectContext
+    
+    init() {
+        self.appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.managedContext = appDelegate.persistentContainer.viewContext
+    }
+
+/******************************************************************************************************/
+    
+    // This func is called in appDelegate to check if all the data has been downloaded the first time
+    func checkIfSchoolDataIsDownloaded() {
+        
+        // If user default "hasDownloadedSchoolData" has not been set yet
+        if(UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData") == nil) {
+            UserDefaults.standard.set(false, forKey: "hasDownloadedSchoolData")
+        }
+        
+        // School data has not been downloaded yet
+        if(!UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData")) {
+            /*let screen = UIScreen.main.bounds.size
+            let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 200, height: 400))
+            indicator.style = .whiteLarge
+            indicator.backgroundColor = UIColor.black
+            indicator.alpha = 0.85
+            indicator.hidesWhenStopped = true
+            indicator.isHidden = false
+            addIndicator(indicator: indicator)*/
+            
+            print("everything is downloading...")
+            // Make sure everything is deleted first
+            deleteAll()
+            // Set up the NWC schools (there are 9 total)
+            setUpNWCSchools()
+            // Get standings and events from NWC website and save them to core data
+            getAllStandings()
+            getAllEvents()
+            // Everything has been downloaded
+            UserDefaults.standard.set(true, forKey: "hasDownloadedSchoolData")
+            
+            //deleteIndicator(indicator: indicator)
+        }
+        
+    }
+    
+    func addIndicator(indicator: UIActivityIndicatorView) {
+        indicator.startAnimating()
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        appDelegate.window?.rootViewController?.view.addSubview(indicator)
+    }
+    
+    func deleteIndicator(indicator: UIActivityIndicatorView) {
+        indicator.stopAnimating()
+        indicator.removeFromSuperview()
+    }
     
 /******************************************************************************************************/
 // Functions below in this section are for the standingsCVC
-    
     func getAllStandings() {
-        for sport in teamAbbr {
-            getStandingDataFromWebsite(teamAbbreviation: sport)
+        for sport in self.teamAbbr {
+            self.getStandingDataFromWebsite(teamAbbreviation: sport)
         }
+        UserDefaults.standard.set(Date(), forKey: "lastVisitedStandings")
     }
     
     func getStandingDataFromWebsite(teamAbbreviation: String) {
@@ -45,7 +100,7 @@ class WebScraper {
                 cssQueryStandings(event: standing, teamAbbreviation: teamAbbreviation)
             }
             
-        } catch Exception.Error(let type, let message) {
+        } catch Exception.Error( _, let message) {
             print("Message: \(message)")
         } catch {
             print("error")
@@ -92,9 +147,14 @@ class WebScraper {
             }
             
             let sport = abbrDict[teamAbbreviation]
-            addtoSport(schoolName: teamName, sportName: sport!, overallWins: overallWins, overallLosses: overallLosses, overallTies: overallTies, confWins: confWins, confLosses: confLosses, confTies: confTies)
+            if(!UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData")) {
+                addtoSport(schoolName: teamName, sportName: sport!, overallWins: overallWins, overallLosses: overallLosses, overallTies: overallTies, confWins: confWins, confLosses: confLosses, confTies: confTies)
+            } else {
+                updateSports(schoolName: teamName, sportName: sport!, overallWins: overallWins, overallLosses: overallLosses, overallTies: overallTies, confWins: confWins, confLosses: confLosses, confTies: confTies)
+            }
+
             
-        } catch Exception.Error(let type, let message) {
+        } catch Exception.Error( _, let message) {
             print("Message: \(message)")
         } catch {
             print("error")
@@ -102,10 +162,44 @@ class WebScraper {
         
     }
     
-    func addtoSport(schoolName: String, sportName: String, overallWins: String, overallLosses: String, overallTies: String, confWins: String, confLosses: String, confTies: String) {
+    func updateSports(schoolName: String, sportName: String, overallWins: String, overallLosses: String, overallTies: String, confWins: String, confLosses: String, confTies: String) {
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
+        // This function is called in the background thread so a private context is created that can be used on the background thread
+        let privateManagedObjectContext: NSManagedObjectContext = {
+            let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            moc.parent = managedContext
+            return moc
+        }()
+        
+        // Get the school
+        var sports = [Sport]()
+        let request = NSFetchRequest<Sport>(entityName: "Sport")
+        let commitPredicate = NSPredicate(format: "school.name == %@ AND type == %@", schoolName, sportName)
+        request.predicate = commitPredicate
+        do {
+            sports = try privateManagedObjectContext.fetch(request)
+        }
+        catch {
+            print("Error = \(error.localizedDescription)")
+        }
+        
+        let sport = sports[0]
+        sport.nwcLosses = confLosses
+        sport.nwcWins = confWins
+        sport.nwcTies = confTies
+        sport.overallWins = overallWins
+        sport.overallLosses = overallLosses
+        sport.overallTies = overallTies
+        
+        do {
+            try privateManagedObjectContext.save()
+        } catch let error as NSError {
+            print("could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    func addtoSport(schoolName: String, sportName: String, overallWins: String, overallLosses: String, overallTies: String, confWins: String, confLosses: String, confTies: String) {
+
         // Get the school
         var school = [School]()
         let request = NSFetchRequest<School>(entityName: "School")
@@ -193,6 +287,7 @@ class WebScraper {
         for sportStr in teamAbbr {
             getEventDataFromWebsite(teamAbbreviation: sportStr)
         }
+        UserDefaults.standard.set(Date(), forKey: "lastVisitedSchedule")
     }
     
     func getEventDataFromWebsite(teamAbbreviation: String) {
@@ -221,7 +316,7 @@ class WebScraper {
                 }
             }
             
-        } catch Exception.Error(let type, let message) {
+        } catch Exception.Error( _, let message) {
             print("Message: \(message)")
         } catch {
             print("error")
@@ -267,9 +362,13 @@ class WebScraper {
                 }
             }
             
-            addToEvent(team1: team1, team2: team2, date: dateStr, status: statusStr, notes: notesStr, team1Score: score1, team2Score: score2, sport: sport)
+            if(!UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData")) {
+                addToEvent(team1: team1, team2: team2, date: dateStr, status: statusStr, notes: notesStr, team1Score: score1, team2Score: score2, sport: sport)
+            } else {
+                updateEvents(team1: team1, team2: team2, date: dateStr, status: statusStr, notes: notesStr, team1Score: score1, team2Score: score2, sport: sport)
+            }
             
-        } catch Exception.Error(let type, let message) {
+        } catch Exception.Error( _, let message) {
             print("Message: \(message)")
         } catch {
             print("error")
@@ -277,10 +376,58 @@ class WebScraper {
         
     }
     
+    var storedTeam1 = ""
+    var storedTeam2 = ""
+    func updateEvents(team1: String, team2: String, date: String, status: String, notes: String, team1Score: String, team2Score: String, sport: String) {
+        
+        // This function is called in the background thread so a private context is created that can be used on the background thread
+        let privateManagedObjectContext: NSManagedObjectContext = {
+            let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+            moc.parent = managedContext
+            return moc
+        }()
+        
+        // Get the event
+        var events = [Event]()
+        let request = NSFetchRequest<Event>(entityName: "Event")
+        let commitPredicate = NSPredicate(format: "team1 == %@ AND team2 == %@ AND date == %@", team1, team2, date)
+        request.predicate = commitPredicate
+        do {
+            events = try privateManagedObjectContext.fetch(request)
+        }
+        catch {
+            print("Error = \(error.localizedDescription)")
+        }
+        
+        // Had to leave - working on logic for if there are multiples games with the same teams on the same date - mostly happens in baseball
+        /*let event = events[0]
+        var sameTeamAndDateCounter = 0;
+        if(events.count > 1) {
+            storedTeam1 = event.team1
+            storedTeam2 = event.team2
+        }
+        if(storedTeam1 ) {
+            
+        }*/
+        
+        if(events.count > 0) {
+            let event = events[0]
+            event.team1Score = team1Score
+            event.team2Score = team2Score
+            event.status = status
+            event.notes = notes
+            event.sport = sport
+        }
+        
+        do {
+            try privateManagedObjectContext.save()
+        } catch let error as NSError {
+            print("could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
     func addToEvent(team1: String, team2: String, date: String, status: String, notes: String, team1Score: String, team2Score: String, sport: String) {
         
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
         let event = Event(context: managedContext)
         event.team1 = team1
         event.team2 = team2
@@ -314,7 +461,6 @@ class WebScraper {
         do {
             let doc: Document = try SwiftSoup.parseBodyFragment(html)
             let eventGroups = try doc.select("[class*=event-row][class*=inprogress]")
-            print(eventGroups.size())
             for eventDay in eventGroups {
                 cssQueryLiveEvent(event: eventDay, sport: abbrDict[teamAbbreviation]!)
             }
@@ -472,6 +618,14 @@ class WebScraper {
     }
     
 /****************************************************************************************************/
+    
+    // Mens - track and field, swimming, golf and cross country
+    // Womens - cross country, golf, rowing, track and field, swimming
+    // These need a different algorithm to get their data
+    // Looks like it's only consistent across their schedules
+    // So probably should just get their schedules
+    
+    
     
     
 }

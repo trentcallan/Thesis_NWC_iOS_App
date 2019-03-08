@@ -19,31 +19,40 @@ var sportToAbbr: [String : String] = ["Baseball": "bsb", "Softball": "sball", "M
 class SportForScheduleTableViewController: UITableViewController {
 
     var sportToSend: String = ""
+    var indicator = UIActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        indicator = ActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
+        self.view.addSubview(indicator)
+        
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         self.navigationItem.title = "Schedule"
         
-        //mens - track and field, swimming, golf and cross country
-        //womens - cross country, golf, rowing, track and field, swimming
-        //these need a different algorithm to get their data
-        
-        // If it's the first time loading this viewcontroller
-        let date = Date()
-        if(UserDefaults.standard.object(forKey: "lastVisitedSchedule") == nil) {
-            UserDefaults.standard.set(date, forKey: "lastVisitedSchedule")
-        }
-        // Else find if it's been more than a day since updating
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        // Find if it's been more than a day since updating
         let lastTime = UserDefaults.standard.object(forKey: "lastVisitedSchedule") as! Date
-        let dayFromLast = Calendar.current.dateComponents([.day], from: lastTime, to: date).day ?? 0
+        let dayFromLast = Calendar.current.dateComponents([.day], from: lastTime, to: Date()).day ?? 0
         if(dayFromLast >= 1) {
+            // Start animating the indicator to show user background work is being done
+            indicator.isHidden = false
+            indicator.startAnimating()
+            
             let webScraper = WebScraper()
-            webScraper.getAllEvents()
-            UserDefaults.standard.set(date, forKey: "lastVisitedSchedule")
+            // Update all data on the background thread
+            DispatchQueue.global(qos: .userInitiated).async(execute: {
+                webScraper.getAllEvents()
+                
+                // Update the UI on the main thread
+                DispatchQueue.main.async(execute: {
+                    self.indicator.stopAnimating()
+                })
+            })
         }
-
+        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
