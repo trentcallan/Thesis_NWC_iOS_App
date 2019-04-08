@@ -28,8 +28,8 @@ class SportForScheduleTableViewController: UITableViewController {
         self.view.addSubview(indicator)
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        self.navigationItem.title = "Schedule"
-        
+        //self.navigationItem.title = "Schedule"
+        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,6 +48,11 @@ class SportForScheduleTableViewController: UITableViewController {
                 
                 // Update the UI on the main thread
                 DispatchQueue.main.async(execute: {
+                    do {
+                        try webScraper.managedContext.save()
+                    } catch let error as NSError {
+                        print("could not save. \(error), \(error.userInfo)")
+                    }
                     self.indicator.stopAnimating()
                 })
             })
@@ -65,6 +70,7 @@ class SportForScheduleTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 24)
         cell.textLabel?.text = abbrDict[teamAbbr[indexPath.row]]
         
         return cell

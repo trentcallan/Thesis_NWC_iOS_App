@@ -18,32 +18,21 @@ class WebScraper {
     let sportToAbbr: [String : String] = ["Baseball": "bsb", "Softball": "sball", "Men's Basketball": "mbkb", "Women's Basketball" : "wbkb", "Men's Soccer" : "msoc", "Women's Soccer" : "wsoc", "Football" : "fball", "Men's Tennis" : "mten", "Women's Tennis" : "wten", "Women's Lacrosse" : "wlax", "Women's Volleyball" : "wvball"]
     var appDelegate: AppDelegate
     var managedContext: NSManagedObjectContext
+    var privateManagedObjectContext: NSManagedObjectContext
     
     init() {
         self.appDelegate = UIApplication.shared.delegate as! AppDelegate
         self.managedContext = appDelegate.persistentContainer.viewContext
+        self.privateManagedObjectContext = appDelegate.updateContext
     }
 
 /******************************************************************************************************/
     
     // This func is called in appDelegate to check if all the data has been downloaded the first time
-    func checkIfSchoolDataIsDownloaded() {
-        
-        // If user default "hasDownloadedSchoolData" has not been set yet
-        if(UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData") == nil) {
-            UserDefaults.standard.set(false, forKey: "hasDownloadedSchoolData")
-        }
-        
+    func downloadSchoolData() {
+                
         // School data has not been downloaded yet
         if(!UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData")) {
-            /*let screen = UIScreen.main.bounds.size
-            let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 200, height: 400))
-            indicator.style = .whiteLarge
-            indicator.backgroundColor = UIColor.black
-            indicator.alpha = 0.85
-            indicator.hidesWhenStopped = true
-            indicator.isHidden = false
-            addIndicator(indicator: indicator)*/
             
             print("everything is downloading...")
             // Make sure everything is deleted first
@@ -55,21 +44,13 @@ class WebScraper {
             getAllEvents()
             // Everything has been downloaded
             UserDefaults.standard.set(true, forKey: "hasDownloadedSchoolData")
-            
-            //deleteIndicator(indicator: indicator)
+            do {
+                try managedContext.save()
+            } catch let error as NSError {
+                print("could not save. \(error), \(error.userInfo)")
+            }
         }
         
-    }
-    
-    func addIndicator(indicator: UIActivityIndicatorView) {
-        indicator.startAnimating()
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        appDelegate.window?.rootViewController?.view.addSubview(indicator)
-    }
-    
-    func deleteIndicator(indicator: UIActivityIndicatorView) {
-        indicator.stopAnimating()
-        indicator.removeFromSuperview()
     }
     
 /******************************************************************************************************/
@@ -145,12 +126,19 @@ class WebScraper {
                 overallTies = overallRecordComponents[1]
                 overallLosses = overallRecordComponents[2]
             }
+            let nwcWinPercentage = try conferenceFields.get(2).text()
+            let nwcRF = try conferenceFields.get(3).text()
+            let nwcRA = try conferenceFields.get(4).text()
+            
+            let overallWinPercentage = try generalFields.get(3).text()
+            let overallRF = try generalFields.get(4).text()
+            let overallRA = try generalFields.get(5).text()
             
             let sport = abbrDict[teamAbbreviation]
             if(!UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData")) {
-                addtoSport(schoolName: teamName, sportName: sport!, overallWins: overallWins, overallLosses: overallLosses, overallTies: overallTies, confWins: confWins, confLosses: confLosses, confTies: confTies)
+                addtoSport(schoolName: teamName, sportName: sport!, overallWins: overallWins, overallLosses: overallLosses, overallTies: overallTies, confWins: confWins, confLosses: confLosses, confTies: confTies, nwcWinPercentage: nwcWinPercentage, nwcRF: nwcRF, nwcRA: nwcRA, overallWinPercentage: overallWinPercentage, overallRF: overallRF, overallRA: overallRA)
             } else {
-                updateSports(schoolName: teamName, sportName: sport!, overallWins: overallWins, overallLosses: overallLosses, overallTies: overallTies, confWins: confWins, confLosses: confLosses, confTies: confTies)
+                updateSports(schoolName: teamName, sportName: sport!, overallWins: overallWins, overallLosses: overallLosses, overallTies: overallTies, confWins: confWins, confLosses: confLosses, confTies: confTies, nwcWinPercentage: nwcWinPercentage, nwcRF: nwcRF, nwcRA: nwcRA, overallWinPercentage: overallWinPercentage, overallRF: overallRF, overallRA: overallRA)
             }
 
             
@@ -162,14 +150,7 @@ class WebScraper {
         
     }
     
-    func updateSports(schoolName: String, sportName: String, overallWins: String, overallLosses: String, overallTies: String, confWins: String, confLosses: String, confTies: String) {
-        
-        // This function is called in the background thread so a private context is created that can be used on the background thread
-        let privateManagedObjectContext: NSManagedObjectContext = {
-            let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            moc.parent = managedContext
-            return moc
-        }()
+    func updateSports(schoolName: String, sportName: String, overallWins: String, overallLosses: String, overallTies: String, confWins: String, confLosses: String, confTies: String, nwcWinPercentage: String, nwcRF: String, nwcRA: String, overallWinPercentage: String, overallRF: String, overallRA: String) {
         
         // Get the school
         var sports = [Sport]()
@@ -187,9 +168,15 @@ class WebScraper {
         sport.nwcLosses = confLosses
         sport.nwcWins = confWins
         sport.nwcTies = confTies
+        sport.nwcWinPercentage = nwcWinPercentage
+        sport.nwcRF = nwcRF
+        sport.nwcRA = nwcRA
         sport.overallWins = overallWins
         sport.overallLosses = overallLosses
         sport.overallTies = overallTies
+        sport.overallWinPercentage = overallWinPercentage
+        sport.overallRF = overallRF
+        sport.overallRA = overallRA
         
         do {
             try privateManagedObjectContext.save()
@@ -198,7 +185,7 @@ class WebScraper {
         }
     }
     
-    func addtoSport(schoolName: String, sportName: String, overallWins: String, overallLosses: String, overallTies: String, confWins: String, confLosses: String, confTies: String) {
+    func addtoSport(schoolName: String, sportName: String, overallWins: String, overallLosses: String, overallTies: String, confWins: String, confLosses: String, confTies: String, nwcWinPercentage: String, nwcRF: String, nwcRA: String, overallWinPercentage: String, overallRF: String, overallRA: String) {
 
         // Get the school
         var school = [School]()
@@ -206,24 +193,30 @@ class WebScraper {
         let commitPredicate = NSPredicate(format: "name == %@", schoolName)
         request.predicate = commitPredicate
         do {
-            school = try managedContext.fetch(request)
+            school = try privateManagedObjectContext.fetch(request)
         }
         catch {
             print("Error = \(error.localizedDescription)")
         }
         
-        let sport = Sport(context: managedContext)
+        let sport = Sport(context: privateManagedObjectContext)
         sport.type = sportName
         sport.nwcLosses = confLosses
         sport.nwcWins = confWins
         sport.nwcTies = confTies
+        sport.nwcWinPercentage = nwcWinPercentage
+        sport.nwcRF = nwcRF
+        sport.nwcRA = nwcRA
         sport.overallWins = overallWins
         sport.overallLosses = overallLosses
         sport.overallTies = overallTies
+        sport.overallWinPercentage = overallWinPercentage
+        sport.overallRF = overallRF
+        sport.overallRA = overallRA
         sport.school = school[0]
         
         do {
-            try managedContext.save()
+            try privateManagedObjectContext.save()
         } catch let error as NSError {
             print("could not save. \(error), \(error.userInfo)")
         }
@@ -233,48 +226,55 @@ class WebScraper {
     
     // Sets up all NWC schools in core data
     func setUpNWCSchools() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let school1 = School(context: managedContext)
+
+        let school1 = School(context: privateManagedObjectContext)
         school1.name = "Whitman"
         school1.logo = "whitmanLogo"
         school1.color = Color(color: UIColor.cyan)
-        let school2 = School(context: managedContext)
+        school1.sectionNumber = 2
+        let school2 = School(context: privateManagedObjectContext)
         school2.name = "Whitworth"
         school2.logo = "whitworthLogo"
         school2.color = Color(color: UIColor.red)
-        let school3 = School(context: managedContext)
+        school2.sectionNumber = 3
+        let school3 = School(context: privateManagedObjectContext)
         school3.name = "Linfield"
         school3.logo = "linfieldLogo"
         school3.color = Color(color: UIColor.purple)
-        let school4 = School(context: managedContext)
+        school3.sectionNumber = 4
+        let school4 = School(context: privateManagedObjectContext)
         school4.name = "Puget Sound"
         school4.logo = "pugetsoundLogo"
         school4.color = Color(color: UIColor.red)
-        let school5 = School(context: managedContext)
+        school4.sectionNumber = 5
+        let school5 = School(context: privateManagedObjectContext)
         school5.name = "George Fox"
         school5.logo = "georgefoxLogo"
         school5.color = Color(color: UIColor.blue)
-        let school6 = School(context: managedContext)
+        school5.sectionNumber = 6
+        let school6 = School(context: privateManagedObjectContext)
         school6.name = "Pacific Lutheran"
         school6.logo = "pluLogo"
         school6.color = Color(color: UIColor.yellow)
-        let school7 = School(context: managedContext)
+        school6.sectionNumber = 7
+        let school7 = School(context: privateManagedObjectContext)
         school7.name = "Pacific (Ore.)"
         school7.logo = "pacificLogo"
         school7.color = Color(color: UIColor.cyan)
-        let school8 = School(context: managedContext)
+        school7.sectionNumber = 8
+        let school8 = School(context: privateManagedObjectContext)
         school8.name = "Lewis & Clark"
         school8.logo = "lewisLogo"
         school8.color = Color(color: UIColor.orange)
-        let school9 = School(context: managedContext)
+        school8.sectionNumber = 9
+        let school9 = School(context: privateManagedObjectContext)
         school9.name = "Willamette"
         school9.logo = "willametteLogo"
         school9.color = Color(color: UIColor.yellow)
-        
+        school9.sectionNumber = 1
         
         do {
-            try managedContext.save()
+            try privateManagedObjectContext.save()
         } catch let error as NSError {
             print("could not save. \(error), \(error.userInfo)")
         }
@@ -354,18 +354,19 @@ class WebScraper {
             var dict = [String : String]()
             if(link.size() != 0) {
                 for idx in 0...link.size()-1 {
-                    let href = try link.get(idx)
+                    let href = link.get(idx)
                     let linkHref: String = try href.attr("href")
-                    let txt = try text.get(idx).text()
+                    let linkText = try text.get(idx).text()
                     //print("text: \(txt) link: \(linkHref)")
-                    dict = [txt : linkHref]
+                    dict[linkText] = linkHref
                 }
             }
+            let linksObject = Links(links: dict)
             
             if(!UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData")) {
-                addToEvent(team1: team1, team2: team2, date: dateStr, status: statusStr, notes: notesStr, team1Score: score1, team2Score: score2, sport: sport)
+                addToEvent(team1: team1, team2: team2, date: dateStr, status: statusStr, notes: notesStr, team1Score: score1, team2Score: score2, sport: sport, links: linksObject)
             } else {
-                updateEvents(team1: team1, team2: team2, date: dateStr, status: statusStr, notes: notesStr, team1Score: score1, team2Score: score2, sport: sport)
+                updateEvents(team1: team1, team2: team2, date: dateStr, status: statusStr, notes: notesStr, team1Score: score1, team2Score: score2, sport: sport, links: linksObject)
             }
             
         } catch Exception.Error( _, let message) {
@@ -378,15 +379,8 @@ class WebScraper {
     
     var storedTeam1 = ""
     var storedTeam2 = ""
-    func updateEvents(team1: String, team2: String, date: String, status: String, notes: String, team1Score: String, team2Score: String, sport: String) {
-        
-        // This function is called in the background thread so a private context is created that can be used on the background thread
-        let privateManagedObjectContext: NSManagedObjectContext = {
-            let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-            moc.parent = managedContext
-            return moc
-        }()
-        
+    func updateEvents(team1: String, team2: String, date: String, status: String, notes: String, team1Score: String, team2Score: String, sport: String, links: Links) {
+
         // Get the event
         var events = [Event]()
         let request = NSFetchRequest<Event>(entityName: "Event")
@@ -398,18 +392,7 @@ class WebScraper {
         catch {
             print("Error = \(error.localizedDescription)")
         }
-        
-        // Had to leave - working on logic for if there are multiples games with the same teams on the same date - mostly happens in baseball
-        /*let event = events[0]
-        var sameTeamAndDateCounter = 0;
-        if(events.count > 1) {
-            storedTeam1 = event.team1
-            storedTeam2 = event.team2
-        }
-        if(storedTeam1 ) {
-            
-        }*/
-        
+
         if(events.count > 0) {
             let event = events[0]
             event.team1Score = team1Score
@@ -417,6 +400,7 @@ class WebScraper {
             event.status = status
             event.notes = notes
             event.sport = sport
+            event.links = links
         }
         
         do {
@@ -426,20 +410,40 @@ class WebScraper {
         }
     }
     
-    func addToEvent(team1: String, team2: String, date: String, status: String, notes: String, team1Score: String, team2Score: String, sport: String) {
+    func addToEvent(team1: String, team2: String, date: String, status: String, notes: String, team1Score: String, team2Score: String, sport: String, links: Links) {
         
-        let event = Event(context: managedContext)
+        let event = Event(context: privateManagedObjectContext)
+        
+        // See if either team in the event have a school logo to add
+        let request = NSFetchRequest<School>(entityName: "School")
+        var schools: [School] = []
+        do {
+            schools = try privateManagedObjectContext.fetch(request)
+        }
+        catch {
+            print("Error = \(error.localizedDescription)")
+        }
+        for school in schools {
+            if(school.name == team1) {
+                event.team1Logo = school.logo
+            } else if(school.name == team2) {
+                event.team2Logo = school.logo
+            }
+        }
+        
+        // Set the other variables
         event.team1 = team1
         event.team2 = team2
         event.team1Score = team1Score
         event.team2Score = team2Score
-        event.date = date
+        event.date = date.toDate()
         event.status = status
         event.notes = notes
         event.sport = sport
+        event.links = links
         
         do {
-            try managedContext.save()
+            try privateManagedObjectContext.save()
         } catch let error as NSError {
             print("could not save. \(error), \(error.userInfo)")
         }
@@ -473,8 +477,6 @@ class WebScraper {
     }
     
     func cssQueryLiveEvent(event: Element, sport: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
         
         do {
             // CSS query calls for class names
@@ -509,7 +511,7 @@ class WebScraper {
             request.predicate = commits
             
             do {
-                currentEvents = try managedContext.fetch(request)
+                currentEvents = try privateManagedObjectContext.fetch(request)
             } catch {
                 print("Error = \(error.localizedDescription)")
             }
@@ -522,10 +524,8 @@ class WebScraper {
                 currentEvent.team2 = team2
                 currentEvent.team1Score = score1
                 currentEvent.team2Score = score2
-                //currentEvent.date = dateStr
                 currentEvent.status = statusStr
                 currentEvent.notes = notesStr
-                //currentEvent.sport = sport
             }
             
         } catch Exception.Error(let type, let message) {
@@ -536,7 +536,7 @@ class WebScraper {
         
         // Save the updated context
         do {
-            try managedContext.save()
+            try privateManagedObjectContext.save()
         } catch let error as NSError {
             print("could not save. \(error), \(error.userInfo)")
         }
@@ -552,18 +552,15 @@ class WebScraper {
     }
     
     func deleteSchools() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
         // Request all schools
         let request1 = NSFetchRequest<School>(entityName: "School")
         do {
-            let result1 = try managedContext.fetch(request1)
+            let result1 = try privateManagedObjectContext.fetch(request1)
             for sub1 in result1 {
-                managedContext.delete(sub1)
+                privateManagedObjectContext.delete(sub1)
             }
             do {
-                try managedContext.save()
+                try privateManagedObjectContext.save()
             } catch let error as NSError {
                 print("could not save. \(error), \(error.userInfo)")
             }
@@ -574,18 +571,15 @@ class WebScraper {
     }
     
     func deleteSports() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
         // Request all schools
         let request1 = NSFetchRequest<Sport>(entityName: "Sport")
         do {
-            let result1 = try managedContext.fetch(request1)
+            let result1 = try privateManagedObjectContext.fetch(request1)
             for sub1 in result1 {
-                managedContext.delete(sub1)
+                privateManagedObjectContext.delete(sub1)
             }
             do {
-                try managedContext.save()
+                try privateManagedObjectContext.save()
             } catch let error as NSError {
                 print("could not save. \(error), \(error.userInfo)")
             }
@@ -596,18 +590,15 @@ class WebScraper {
     }
     
     func deleteEvents() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
         // Request all schools
         let request1 = NSFetchRequest<Event>(entityName: "Event")
         do {
-            let result1 = try managedContext.fetch(request1)
+            let result1 = try privateManagedObjectContext.fetch(request1)
             for sub1 in result1 {
-                managedContext.delete(sub1)
+                privateManagedObjectContext.delete(sub1)
             }
             do {
-                try managedContext.save()
+                try privateManagedObjectContext.save()
             } catch let error as NSError {
                 print("could not save. \(error), \(error.userInfo)")
             }

@@ -8,21 +8,41 @@
 
 import UIKit
 import CoreData
+import WebKit
 
 class ScheduleTableViewController: UITableViewController {
 
     var events: [Event] = []
     var sport: String = ""
+    var schools: [School] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.isHidden = false
+        schools.loadSchools()
+        
+        self.tableView.allowsSelection = true
+        self.tableView.separatorStyle = .none
+        // Register the custom cell
+        self.tableView.register(EventTableViewCell.self, forCellReuseIdentifier: "eventReuseIdentifier")
 
         // Set the first as selected
-        imageArr[0].backgroundColor = UIColor.green
-        self.navigationItem.title = "\(sport) Schedule"
+        imageArr[0].layer.borderColor = UIColor.black.cgColor
+        imageArr[0].layer.borderWidth = 2
         loadEvents()
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationItem.title = "\(sport)"
+        
+        // Deselect the selected row
+        let selectedRow: IndexPath? = tableView.indexPathForSelectedRow
+        if let selectedRowNotNil = selectedRow {
+            tableView.deselectRow(at: selectedRowNotNil, animated: false)
+        }
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -31,20 +51,43 @@ class ScheduleTableViewController: UITableViewController {
         return events.count
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(240)
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "schedule2cell", for: indexPath) as! ScheduleTableViewCell
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "eventReuseIdentifier", for: indexPath) as! EventTableViewCell
         let event = events[indexPath.row]
-        cell.dateLabel.text = event.date
-        cell.notesLabel.text = event.notes
+        cell.sportNameLabel.text = event.date.toStringDate()
+        cell.notesLabel.text = event.status
+        if(event.notes != "") {
+            cell.notesLabel.text = event.status + "\n" + event.notes
+        }
         cell.team1Label.text = event.team1
         cell.team1ScoreLabel.text = event.team1Score
         cell.team2Label.text = event.team2
         cell.team2ScoreLabel.text = event.team2Score
+        if(event.team1Score != "" && event.team2Score != "") {
+            cell.scoreDividerLabel.text = "-"
+        }
+        cell.team1ImageView.image = nil
+        cell.team2ImageView.image = nil
+        if let logoString1 = event.team1Logo {
+            cell.team1ImageView.image = UIImage(named: logoString1)
+        }
+        if let logoString2 = event.team2Logo {
+            cell.team2ImageView.image = UIImage(named: logoString2)
+        }
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let event = events[indexPath.row]
+        let links = event.links as! Links
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "eventDetailsViewController") as! EventDetailsViewController
+        viewController.links = links
+        viewController.event = event
+        navigationController?.pushViewController(viewController, animated: true)
     }
     
     var imageArr: [UIImageView] = [UIImageView(), UIImageView(image: UIImage(named: "willametteLogo")), UIImageView(image: UIImage(named: "pacificLogo")), UIImageView(image: UIImage(named: "pluLogo")), UIImageView(image: UIImage(named: "whitmanLogo")), UIImageView(image: UIImage(named: "whitworthLogo")), UIImageView(image: UIImage(named: "lewisLogo")), UIImageView(image: UIImage(named: "georgefoxLogo")), UIImageView(image: UIImage(named: "pugetsoundLogo")), UIImageView(image: UIImage(named: "linfieldLogo")), ]
@@ -56,7 +99,6 @@ class ScheduleTableViewController: UITableViewController {
         var contentSize: CGFloat = 0
         let scrollView = UIScrollView(frame: CGRect(x: 10, y: 5, width: (tableView.frame.width), height: size+10))
         scrollView.isScrollEnabled = true
-        scrollView.backgroundColor = UIColor.lightGray
         
         for index in 0...imageArr.count-1 {
 
@@ -66,8 +108,6 @@ class ScheduleTableViewController: UITableViewController {
             tempImgView.isUserInteractionEnabled = true
             tempImgView.tag = index
             tempImgView.addGestureRecognizer(tapRecognizer)
-            tempImgView.layer.borderWidth = 2
-            tempImgView.layer.borderColor = UIColor.white.cgColor
             scrollView.addSubview(tempImgView)
             
             tempImgView.frame.size.height = size
@@ -91,7 +131,8 @@ class ScheduleTableViewController: UITableViewController {
     
     @objc func handleTaps(_ sender: UITapGestureRecognizer) {
         for img in imageArr {
-            img.backgroundColor = UIColor.clear
+            img.layer.borderColor = UIColor.clear.cgColor
+            img.layer.borderWidth = 0
             img.setNeedsLayout()
             img.layoutIfNeeded()
         }
@@ -99,7 +140,7 @@ class ScheduleTableViewController: UITableViewController {
         let imgView: UIImageView = sender.view as! UIImageView
         let index = imgView.tag
         imgView.layer.borderColor = UIColor.black.cgColor
-        imgView.backgroundColor = UIColor.green
+        imgView.layer.borderWidth = 2
         imgView.setNeedsLayout()
         imgView.layoutIfNeeded()
         
@@ -138,13 +179,16 @@ class ScheduleTableViewController: UITableViewController {
     
     func loadEvents() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
+        let privateManagedContext = appDelegate.updateContext
         
         let request = NSFetchRequest<Event>(entityName: "Event")
         let commitPredicate = NSPredicate(format: "sport == %@", sport)
         request.predicate = commitPredicate
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
+        request.sortDescriptors = [sortDescriptor]
+
         do {
-            events = try managedContext.fetch(request)
+            events = try privateManagedContext.fetch(request)
         }
         catch {
             print("Error = \(error.localizedDescription)")
@@ -153,20 +197,24 @@ class ScheduleTableViewController: UITableViewController {
     
     func loadSchoolEvents(schoolToGet: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
+        let privateManagedContext = appDelegate.updateContext
+        
         let request = NSFetchRequest<Event>(entityName: "Event")
         let commitPredicate1 = NSPredicate(format: "sport == %@", sport)
         let commitPredicate2 = NSPredicate(format: "team1 == %@ OR team2 == %@", schoolToGet, schoolToGet)
-        
         let commits = NSCompoundPredicate(andPredicateWithSubpredicates: [commitPredicate1, commitPredicate2])
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))
+        request.sortDescriptors = [sortDescriptor]
         request.predicate = commits
+
         do {
-            events = try managedContext.fetch(request)
+            events = try privateManagedContext.fetch(request)
         }
         catch {
             print("Error = \(error.localizedDescription)")
         }
         self.tableView.reloadData()
     }
+    
     
 }

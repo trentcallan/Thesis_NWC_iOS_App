@@ -10,7 +10,7 @@ import UIKit
 
 class EmptyEventTableViewCell: UITableViewCell {
 
-    var emptyNotificationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 80))
+    var emptyNotificationLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,10 +23,10 @@ class EmptyEventTableViewCell: UITableViewCell {
     }
     
     func setupCell() {
-        self.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 80)
         emptyNotificationLabel.text = "There are no events today"
-        emptyNotificationLabel.textAlignment = .center
         emptyNotificationLabel.font = UIFont.systemFont(ofSize: 22)
+        emptyNotificationLabel.numberOfLines = 0
+        emptyNotificationLabel.textAlignment = .center
         self.addSubview(emptyNotificationLabel)
     }
 

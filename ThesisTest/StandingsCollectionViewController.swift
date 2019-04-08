@@ -14,20 +14,34 @@ class StandingsCollectionViewController: UICollectionViewController {
     
     var schools: [School] = []
     var indicator = UIActivityIndicatorView()
+    var removedSchools = [Bool]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setUpRemovedSchools()
+        schools.loadSchools()
         
-        loadSchools()
-        
+        indicator = ActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
+        self.view.addSubview(indicator)
+                
         // Allow the height of the cell to automatically adjust
         if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout,
             let collectionView = collectionView {
-            let w = collectionView.frame.width - 20
-            flowLayout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
-            flowLayout.estimatedItemSize = CGSize(width: w, height: 80)
+            //flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            flowLayout.estimatedItemSize = CGSize(width: collectionView.frame.width, height: 192)
         }
         
+    }
+    
+    func setUpRemovedSchools() {
+        let userDefaults = UserDefaults.standard
+        
+        if(userDefaults.object(forKey: "removedSchools") == nil) {
+            let collapsedSectionsToStart = [true, true, true, true, true, true, true, true, true]
+            userDefaults.set(collapsedSectionsToStart, forKey:"removedSchools")
+        }
+        removedSchools = userDefaults.object(forKey: "removedSchools") as! [Bool]
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,32 +56,22 @@ class StandingsCollectionViewController: UICollectionViewController {
             
             let webScraper = WebScraper()
             // Update all data on the background thread
+            
             DispatchQueue.global(qos: .userInitiated).async(execute: {
                 webScraper.getAllStandings()
                 
                 // Update the UI on the main thread
                 DispatchQueue.main.async(execute: {
+                    do {
+                        try webScraper.managedContext.save()
+                    } catch let error as NSError {
+                        print("could not save. \(error), \(error.userInfo)")
+                    }
                     self.indicator.stopAnimating()
                     self.collectionView.reloadData()
                 })
             })
         }
-    }
-    
-    func loadSchools() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let request = NSFetchRequest<School>(entityName: "School")
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: false, selector: #selector(NSString.localizedStandardCompare(_:)))
-        request.sortDescriptors = [sortDescriptor]
-        do {
-            schools = try managedContext.fetch(request)
-        }
-        catch {
-            print("Error = \(error.localizedDescription)")
-        }
-        
     }
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -75,6 +79,12 @@ class StandingsCollectionViewController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        for (index, removedSchool) in removedSchools.enumerated() {
+            if(section == index && removedSchool) {
+                return 0
+            }
+        }
         return (schools[section].sports?.count)!
     }
 
@@ -85,13 +95,18 @@ class StandingsCollectionViewController: UICollectionViewController {
         let sport = sports[indexPath.row]
         cell.sportNameLabel.text = sport.type
         if(sport.nwcTies == "" && sport.overallTies == "") {
-            cell.nwcRecordLabel.text = "NWC: \(sport.nwcWins!) - \(sport.nwcLosses!)"
-            cell.overallRecordLabel.text = "Overall: \(sport.overallWins!) - \(sport.overallLosses!)"
+            cell.nwcRecordLabel.text = sport.nwcWins + " - " + sport.nwcLosses
+            cell.overallRecordLabel.text = sport.overallWins + " - " + sport.overallLosses
         } else {
-            cell.nwcRecordLabel.text = "NWC: \(sport.nwcWins!) - \(sport.nwcTies!) - \(sport.nwcLosses!)"
-            cell.overallRecordLabel.text = "Overall: \(sport.overallWins!) - \(sport.overallTies!) - \(sport.overallLosses!)"
+            cell.nwcRecordLabel.text = sport.nwcWins + " - " + sport.nwcTies! + " - " + sport.nwcLosses
+            cell.overallRecordLabel.text = sport.overallWins + " - " + sport.overallTies! + " - " + sport.overallLosses
         }
-        cell.logoImageView.image = UIImage(named: school.logo!)
+        cell.nwcWinPercentageLabel.text = sport.nwcWinPercentage
+        cell.overallWinPercentageLabel.text = sport.overallWinPercentage
+        cell.nwcRFLabel.text = sport.nwcRF
+        cell.overallRFLabel.text = sport.overallRF
+        cell.nwcRALabel.text = sport.nwcRA
+        cell.overallRALabel.text = sport.nwcRA
         
         return cell
     }
@@ -100,18 +115,75 @@ class StandingsCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "SectionHeader", for: indexPath) as! StandingsHeaderView
-        
-        indicator = ActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        indicator.backgroundColor = UIColor.clear
-        indicator.center.y = header.center.y
-        header.addSubview(indicator)
+        header.standingsViewDelegate = self
+        header.tag = indexPath.section
         
         header.headerLbl.text = schools[indexPath.section].name
+        header.schoolLogoImageView.image = UIImage(named: schools[indexPath.section].logo!)
         let color = schools[indexPath.section].color as! Color
         header.backgroundColor = color.color
         
         return header
     }
     
+    func loadSpecificSchool(schoolName: String) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let privateManagedObjectContext = appDelegate.updateContext
+        var temporarySchools: [School] = []
+        
+        let request = NSFetchRequest<School>(entityName: "School")
+        let commitPredicate = NSPredicate(format: "name == %@", schoolName)
+        request.predicate = commitPredicate
+        do {
+            temporarySchools = try privateManagedObjectContext.fetch(request)
+            for school in temporarySchools {
+                schools.insert(school, at: 0)
+            }
+        }
+        catch {
+            print("Error = \(error.localizedDescription)")
+        }
+        
+    }
+    
 
+}
+
+extension StandingsCollectionViewController : ViewTappedDelegate {
+
+    func viewTapped(section: Int) {
+
+        let numberOfSportsInSection = schools[section].sports.count
+        //empty section
+        if(removedSchools[section]) {
+            removedSchools[section] = false
+            UserDefaults.standard.set(removedSchools, forKey:"removedSchools")
+
+            var indexPathArray = [IndexPath]()
+            for i in 0...numberOfSportsInSection-1 {
+                let indexPath = IndexPath(row: i, section: section)
+                indexPathArray.append(indexPath)
+            }
+                        
+            collectionView?.performBatchUpdates({
+                self.collectionView?.insertItems(at: indexPathArray)
+            }, completion: nil)
+        } else {
+
+            removedSchools[section] = true
+            UserDefaults.standard.set(removedSchools, forKey:"removedSchools")
+            
+            var indexPathArray = [IndexPath]()
+            for i in 0...numberOfSportsInSection-1 {
+                
+                let indexPath = IndexPath(row: i, section: section)
+                indexPathArray.append(indexPath)
+            }
+            
+            collectionView?.performBatchUpdates({
+                self.collectionView?.deleteItems(at: indexPathArray)
+            }, completion: nil)
+        }
+    }
+    
 }

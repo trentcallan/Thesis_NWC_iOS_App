@@ -8,12 +8,23 @@
 
 import UIKit
 
-class StandingsHeaderView: UICollectionReusableView {
+protocol ViewTappedDelegate {
+    func viewTapped(section: Int)
+}
+
+class StandingsHeaderView: UICollectionReusableView, UIGestureRecognizerDelegate {
     
+    @IBOutlet weak var schoolLogoImageView: UIImageView!
     @IBOutlet weak var headerLbl: UILabel!
+    var standingsViewDelegate: ViewTappedDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeaderTap))
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.delegate = self
+        self.addGestureRecognizer(tapGesture)
         
         let border1 = CALayer()
         let border2 = CALayer()
@@ -29,6 +40,10 @@ class StandingsHeaderView: UICollectionReusableView {
         self.layer.addSublayer(border1)
         self.layer.addSublayer(border2)
         self.layer.masksToBounds = true
+    }
+    
+    @objc func handleHeaderTap() {
+        standingsViewDelegate?.viewTapped(section: self.tag)
     }
     
 }

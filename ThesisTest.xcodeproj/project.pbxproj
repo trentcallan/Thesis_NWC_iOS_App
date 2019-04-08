@@ -33,6 +33,13 @@
 		F51028202225CA0100FE1505 /* WebScraper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F510281F2225CA0100FE1505 /* WebScraper.swift */; };
 		F51028242231977F00FE1505 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51028232231977F00FE1505 /* ActivityIndicatorView.swift */; };
 		F51028262231C36500FE1505 /* EmptyEventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51028252231C36500FE1505 /* EmptyEventTableViewCell.swift */; };
+		F51028482236F9F400FE1505 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F51028472236F9F400FE1505 /* EventTableViewCell.swift */; };
+		F510284A22377B7D00FE1505 /* InitialScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F510284922377B7D00FE1505 /* InitialScreenViewController.swift */; };
+		F5861C75225555170090599E /* Links.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5861C74225555170090599E /* Links.swift */; };
+		F5861C7722555CFF0090599E /* LinkButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5861C7622555CFF0090599E /* LinkButton.swift */; };
+		F5861C79225565170090599E /* EventDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5861C78225565170090599E /* EventDetailsViewController.swift */; };
+		F5861C7D2255C7440090599E /* LinkButtonsScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5861C7C2255C7440090599E /* LinkButtonsScrollView.swift */; };
+		F5861C7F225BB81D0090599E /* SharedCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5861C7E225BB81D0090599E /* SharedCode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +96,13 @@
 		F510281F2225CA0100FE1505 /* WebScraper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebScraper.swift; sourceTree = "<group>"; };
 		F51028232231977F00FE1505 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		F51028252231C36500FE1505 /* EmptyEventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyEventTableViewCell.swift; sourceTree = "<group>"; };
+		F51028472236F9F400FE1505 /* EventTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
+		F510284922377B7D00FE1505 /* InitialScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialScreenViewController.swift; sourceTree = "<group>"; };
+		F5861C74225555170090599E /* Links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Links.swift; sourceTree = "<group>"; };
+		F5861C7622555CFF0090599E /* LinkButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkButton.swift; sourceTree = "<group>"; };
+		F5861C78225565170090599E /* EventDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewController.swift; sourceTree = "<group>"; };
+		F5861C7C2255C7440090599E /* LinkButtonsScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkButtonsScrollView.swift; sourceTree = "<group>"; };
+		F5861C7E225BB81D0090599E /* SharedCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedCode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,14 +178,17 @@
 			isa = PBXGroup;
 			children = (
 				F5082D3A2145CB5200D1DD9C /* AppDelegate.swift */,
+				F5082D462145CB5200D1DD9C /* Info.plist */,
 				F5082D3E2145CB5200D1DD9C /* Main.storyboard */,
 				F5082D412145CB5200D1DD9C /* Assets.xcassets */,
 				F5082D432145CB5200D1DD9C /* LaunchScreen.storyboard */,
-				F5082D462145CB5200D1DD9C /* Info.plist */,
+				F510284922377B7D00FE1505 /* InitialScreenViewController.swift */,
 				F50F628B2201008E00F1BC91 /* StandingsCollectionViewController.swift */,
 				F50F62902202614F00F1BC91 /* SportForScheduleTableViewController.swift */,
 				F50F62972211F93D00F1BC91 /* ScheduleTableViewController.swift */,
+				F5861C78225565170090599E /* EventDetailsViewController.swift */,
 				F50F62EA2221DEA300F1BC91 /* LiveEventsTableViewController.swift */,
+				F5861C7E225BB81D0090599E /* SharedCode.swift */,
 			);
 			path = ThesisTest;
 			sourceTree = "<group>";
@@ -204,6 +221,7 @@
 				F50F62D92215448300F1BC91 /* School+CoreDataClass.swift */,
 				F50F62DB2215448400F1BC91 /* School+CoreDataProperties.swift */,
 				F50F62C522121A9600F1BC91 /* Model.xcdatamodeld */,
+				F5861C74225555170090599E /* Links.swift */,
 				F50F62E6221F524500F1BC91 /* Color.swift */,
 				F510281F2225CA0100FE1505 /* WebScraper.swift */,
 			);
@@ -219,6 +237,9 @@
 				F50F62EC2221DF0C00F1BC91 /* LiveEventTableViewCell.swift */,
 				F51028232231977F00FE1505 /* ActivityIndicatorView.swift */,
 				F51028252231C36500FE1505 /* EmptyEventTableViewCell.swift */,
+				F51028472236F9F400FE1505 /* EventTableViewCell.swift */,
+				F5861C7622555CFF0090599E /* LinkButton.swift */,
+				F5861C7C2255C7440090599E /* LinkButtonsScrollView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -418,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F50F62EB2221DEA300F1BC91 /* LiveEventsTableViewController.swift in Sources */,
+				F5861C7D2255C7440090599E /* LinkButtonsScrollView.swift in Sources */,
 				F50F62E32215EFE500F1BC91 /* Event+CoreDataProperties.swift in Sources */,
 				F50F628F2201024B00F1BC91 /* StandingsCollectionViewCell.swift in Sources */,
 				F50F62E22215EFE500F1BC91 /* Event+CoreDataClass.swift in Sources */,
@@ -425,16 +447,22 @@
 				F5082D3B2145CB5200D1DD9C /* AppDelegate.swift in Sources */,
 				F50F62E92221D22900F1BC91 /* StandingsHeaderView.swift in Sources */,
 				F50F62912202614F00F1BC91 /* SportForScheduleTableViewController.swift in Sources */,
+				F5861C75225555170090599E /* Links.swift in Sources */,
 				F50F62DD2215448400F1BC91 /* School+CoreDataClass.swift in Sources */,
 				F50F62E52217479600F1BC91 /* ScheduleTableViewCell.swift in Sources */,
+				F5861C7F225BB81D0090599E /* SharedCode.swift in Sources */,
+				F5861C79225565170090599E /* EventDetailsViewController.swift in Sources */,
 				F50F628C2201008E00F1BC91 /* StandingsCollectionViewController.swift in Sources */,
 				F50F62DE2215448400F1BC91 /* Sport+CoreDataClass.swift in Sources */,
 				F50F62E7221F524500F1BC91 /* Color.swift in Sources */,
 				F51028242231977F00FE1505 /* ActivityIndicatorView.swift in Sources */,
 				F50F62DC2215448400F1BC91 /* Sport+CoreDataProperties.swift in Sources */,
+				F510284A22377B7D00FE1505 /* InitialScreenViewController.swift in Sources */,
 				F50F62982211F93D00F1BC91 /* ScheduleTableViewController.swift in Sources */,
 				F50F62DF2215448400F1BC91 /* School+CoreDataProperties.swift in Sources */,
 				F51028202225CA0100FE1505 /* WebScraper.swift in Sources */,
+				F51028482236F9F400FE1505 /* EventTableViewCell.swift in Sources */,
+				F5861C7722555CFF0090599E /* LinkButton.swift in Sources */,
 				F50F62C722121A9600F1BC91 /* Model.xcdatamodeld in Sources */,
 				F50F62ED2221DF0C00F1BC91 /* LiveEventTableViewCell.swift in Sources */,
 			);

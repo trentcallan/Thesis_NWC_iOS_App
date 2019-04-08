@@ -10,24 +10,20 @@ import UIKit
 
 class StandingsCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var logoImageView: UIImageView!
+    @IBOutlet weak var sportNameLabel: UILabel!
     @IBOutlet weak var nwcRecordLabel: UILabel!
     @IBOutlet weak var overallRecordLabel: UILabel!
-    @IBOutlet weak var sportNameLabel: UILabel!
+    @IBOutlet weak var nwcWinPercentageLabel: UILabel!
+    @IBOutlet weak var overallWinPercentageLabel: UILabel!
+    @IBOutlet weak var nwcRFLabel: UILabel!
+    @IBOutlet weak var overallRFLabel: UILabel!
+    @IBOutlet weak var nwcRALabel: UILabel!
+    @IBOutlet weak var overallRALabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.layer.borderWidth = 1.0
-        self.layer.borderColor = UIColor.black.cgColor
-        self.layer.cornerRadius = 8.0
         
-        self.clipsToBounds = false
-        self.layer.masksToBounds = false
-        self.layer.shadowRadius = 8.0
-        self.layer.shadowOffset = CGSize(width: 2, height: 2)
-        self.layer.shadowColor = UIColor.black.cgColor
-        self.layer.shadowOpacity = 0.25
-        
+        sportNameLabel.backgroundColor = UIColor(red: 30/255, green: 144/255, blue: 255/255, alpha: 1)
     }
     
     override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {

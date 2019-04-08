@@ -2,12 +2,13 @@
 //  School+CoreDataProperties.swift
 //  
 //
-//  Created by Trent Callan on 2/21/19.
+//  Created by Trent Callan on 4/3/19.
 //
 //
 
 import Foundation
 import CoreData
+
 
 extension School {
 
@@ -15,10 +16,11 @@ extension School {
         return NSFetchRequest<School>(entityName: "School")
     }
 
-    @NSManaged public var name: String?
-    @NSManaged public var logo: String?
-    @NSManaged public var color: NSObject?
-    @NSManaged public var sports: NSOrderedSet?
+    @NSManaged public var color: NSObject!
+    @NSManaged public var logo: String!
+    @NSManaged public var name: String!
+    @NSManaged public var sectionNumber: Int16
+    @NSManaged public var sports: NSOrderedSet!
 
 }
 

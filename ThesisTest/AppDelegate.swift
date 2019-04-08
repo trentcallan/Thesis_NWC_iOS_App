@@ -17,9 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        let webScraper = WebScraper()
-        webScraper.checkIfSchoolDataIsDownloaded()
+
+        // If user default "hasDownloadedSchoolData" has not been set yet
+        if(UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData") == nil || UserDefaults.standard.bool(forKey: "hasDownloadedSchoolData") == false) {
+            UserDefaults.standard.set(false, forKey: "hasDownloadedSchoolData")
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let viewController = storyboard.instantiateViewController(withIdentifier: "initialScreenViewController") as! InitialScreenViewController
+            window?.rootViewController = viewController
+            window?.makeKeyAndVisible()
+        }
         
         return true
     }
@@ -73,6 +79,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         return container
+    }()
+    
+    lazy var updateContext: NSManagedObjectContext = {
+        let updateContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        updateContext.parent = self.persistentContainer.viewContext
+        return updateContext
     }()
     
     // MARK: - Core Data Saving support
