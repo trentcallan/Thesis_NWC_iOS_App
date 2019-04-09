@@ -384,7 +384,8 @@ class WebScraper {
         // Get the event
         var events = [Event]()
         let request = NSFetchRequest<Event>(entityName: "Event")
-        let commitPredicate = NSPredicate(format: "team1 == %@ AND team2 == %@ AND date == %@", team1, team2, date)
+        let NSdate = date.toDate() as NSDate
+        let commitPredicate = NSPredicate(format: "team1 == %@ AND team2 == %@ AND date == %@", team1, team2, NSdate)
         request.predicate = commitPredicate
         do {
             events = try privateManagedObjectContext.fetch(request)
@@ -502,10 +503,11 @@ class WebScraper {
             
             
             var currentEvents = [Event]()
+            let NSdate = dateStr.toDate() as NSDate
             let request = NSFetchRequest<Event>(entityName: "Event")
             let commitPredicate1 = NSPredicate(format: "team1 == %@", team1)
             let commitPredicate2 = NSPredicate(format: "team2 == %@", team2)
-            let commitPredicate3 = NSPredicate(format: "date == %@", dateStr)
+            let commitPredicate3 = NSPredicate(format: "date == %@", NSdate)
             let commitPredicate4 = NSPredicate(format: "sport == %@", sport)
             let commits = NSCompoundPredicate(andPredicateWithSubpredicates: [commitPredicate1, commitPredicate2, commitPredicate3, commitPredicate4])
             request.predicate = commits

@@ -21,6 +21,9 @@ class StandingsHeaderView: UICollectionReusableView, UIGestureRecognizerDelegate
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        headerLbl.adjustsFontSizeToFitWidth = true;
+        headerLbl.minimumScaleFactor=0.5;
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleHeaderTap))
         tapGesture.numberOfTapsRequired = 1
         tapGesture.delegate = self

@@ -506,9 +506,9 @@
                                 </imageView>
                             </subviews>
                             <constraints>
+                                <constraint firstItem="z9r-8D-fv2" firstAttribute="leading" secondItem="qPI-I2-owb" secondAttribute="trailing" constant="8" id="21c-a5-5cf"/>
                                 <constraint firstAttribute="bottomMargin" secondItem="z9r-8D-fv2" secondAttribute="bottom" constant="8" id="GUb-lM-PdV"/>
                                 <constraint firstItem="z9r-8D-fv2" firstAttribute="top" secondItem="Wbn-of-7ea" secondAttribute="topMargin" constant="8" id="NH1-1A-Atu"/>
-                                <constraint firstItem="z9r-8D-fv2" firstAttribute="leading" secondItem="qPI-I2-owb" secondAttribute="trailing" constant="8" id="RAT-L8-kDy"/>
                                 <constraint firstAttribute="trailingMargin" secondItem="z9r-8D-fv2" secondAttribute="trailing" constant="8" id="dZU-Qf-wai"/>
                                 <constraint firstItem="qPI-I2-owb" firstAttribute="leading" secondItem="Wbn-of-7ea" secondAttribute="leadingMargin" constant="8" id="nMt-gb-bzl"/>
                                 <constraint firstItem="qPI-I2-owb" firstAttribute="centerY" secondItem="Wbn-of-7ea" secondAttribute="centerY" id="ozr-82-V8E"/>

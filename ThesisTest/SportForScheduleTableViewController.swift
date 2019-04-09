@@ -28,7 +28,6 @@ class SportForScheduleTableViewController: UITableViewController {
         self.view.addSubview(indicator)
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        //self.navigationItem.title = "Schedule"
         navigationController?.navigationBar.isHidden = true
     }
     
