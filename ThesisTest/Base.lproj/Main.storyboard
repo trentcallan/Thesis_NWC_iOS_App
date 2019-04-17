@@ -313,17 +313,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Frr-HG-N1z">
-                            <size key="itemSize" width="375" height="349"/>
+                            <size key="itemSize" width="375" height="192"/>
                             <size key="headerReferenceSize" width="50" height="100"/>
                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
                             <inset key="sectionInset" minX="0.0" minY="8" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="standingsCell" id="BEE-Ek-1at" customClass="StandingsCollectionViewCell" customModule="ThesisTest" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="108" width="375" height="349"/>
+                                <rect key="frame" x="0.0" y="108" width="375" height="192"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="349"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="192"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yj7-f3-UH8">
@@ -486,7 +486,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z9r-8D-fv2">
-                                    <rect key="frame" x="84" y="16" width="275" height="68"/>
+                                    <rect key="frame" x="88" y="16" width="271" height="68"/>
                                     <attributedString key="attributedText">
                                         <fragment content="Label">
                                             <attributes>
@@ -498,20 +498,20 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qPI-I2-owb">
-                                    <rect key="frame" x="16" y="20" width="60" height="60"/>
+                                    <rect key="frame" x="16" y="16" width="64" height="68"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="60" id="h30-et-Hwa"/>
-                                        <constraint firstAttribute="width" constant="60" id="hco-j7-8T8"/>
+                                        <constraint firstAttribute="width" constant="64" id="LON-2O-KGn"/>
                                     </constraints>
                                 </imageView>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="z9r-8D-fv2" firstAttribute="leading" secondItem="qPI-I2-owb" secondAttribute="trailing" constant="8" id="21c-a5-5cf"/>
-                                <constraint firstAttribute="bottomMargin" secondItem="z9r-8D-fv2" secondAttribute="bottom" constant="8" id="GUb-lM-PdV"/>
-                                <constraint firstItem="z9r-8D-fv2" firstAttribute="top" secondItem="Wbn-of-7ea" secondAttribute="topMargin" constant="8" id="NH1-1A-Atu"/>
-                                <constraint firstAttribute="trailingMargin" secondItem="z9r-8D-fv2" secondAttribute="trailing" constant="8" id="dZU-Qf-wai"/>
+                                <constraint firstAttribute="trailingMargin" secondItem="z9r-8D-fv2" secondAttribute="trailing" constant="8" id="2gS-SY-2Ux"/>
+                                <constraint firstItem="z9r-8D-fv2" firstAttribute="top" secondItem="Wbn-of-7ea" secondAttribute="topMargin" constant="8" id="6sU-np-l4g"/>
+                                <constraint firstAttribute="bottomMargin" secondItem="z9r-8D-fv2" secondAttribute="bottom" constant="8" id="Lao-qu-qN7"/>
+                                <constraint firstItem="qPI-I2-owb" firstAttribute="top" secondItem="Wbn-of-7ea" secondAttribute="topMargin" constant="8" id="lLd-NH-6Zs"/>
                                 <constraint firstItem="qPI-I2-owb" firstAttribute="leading" secondItem="Wbn-of-7ea" secondAttribute="leadingMargin" constant="8" id="nMt-gb-bzl"/>
-                                <constraint firstItem="qPI-I2-owb" firstAttribute="centerY" secondItem="Wbn-of-7ea" secondAttribute="centerY" id="ozr-82-V8E"/>
+                                <constraint firstAttribute="bottomMargin" secondItem="qPI-I2-owb" secondAttribute="bottom" constant="8" id="uy6-t6-4Su"/>
                             </constraints>
                             <connections>
                                 <outlet property="headerLbl" destination="z9r-8D-fv2" id="mBB-Qh-Qci"/>

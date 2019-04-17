@@ -25,13 +25,6 @@ class StandingsCollectionViewController: UICollectionViewController {
         indicator = ActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
         self.view.addSubview(indicator)
                 
-        // Allow the height of the cell to automatically adjust
-        if let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout,
-            let collectionView = collectionView {
-            //flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-            flowLayout.estimatedItemSize = CGSize(width: collectionView.frame.width, height: 192)
-        }
-        
     }
     
     func setUpRemovedSchools() {
@@ -152,9 +145,10 @@ class StandingsCollectionViewController: UICollectionViewController {
 extension StandingsCollectionViewController : ViewTappedDelegate {
 
     func viewTapped(section: Int) {
-
+        // On tapping a section header
         let numberOfSportsInSection = schools[section].sports.count
-        //empty section
+        
+        // Empty section
         if(removedSchools[section]) {
             removedSchools[section] = false
             UserDefaults.standard.set(removedSchools, forKey:"removedSchools")

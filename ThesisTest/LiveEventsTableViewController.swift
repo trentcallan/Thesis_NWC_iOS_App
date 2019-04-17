@@ -122,7 +122,7 @@ class LiveEventsTableViewController: UITableViewController {
         let title = UILabel(frame: CGRect(x: 8, y: 8, width: self.view.bounds.width-16, height: 64))
         title.font = UIFont.systemFont(ofSize: 24)
         title.textAlignment = .center
-        title.text = "Live Events for \(dates[section])"
+        title.text = "\(dates[section])"
         view.addSubview(title)
         
         if(section == 0) {
